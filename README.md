@@ -1,1 +1,8 @@
-# Games-Engines-2
+# Galactic Traffic 
+In this game you play as a traffic guard for the intergalactic alien traffic, to guide spaceships to their destinations and help with the great galactic expansion. Your job is to steer the leaders of each flock of UFOs into the correct cardinal direction of the screen. Each flock announces the destination that you need to guide it to. As the rounds progress, it becomes more and more difficult to guide the ships, with flocks needing to be guided simultaneously and hazard obstacles that fly in the way.
+
+You need to be careful of other flocks colliding together or colliding into hazards like asteroids. Another obstacle that could really cause some trouble is the black hole, which pulls everything around it towards the center to eat up anything it touches. All of these mechanics help add to the chaos of the gameplay, where you must minimise the damage caused to all the ships to increase your final score.
+
+Another mechanic to help make the gameplay more difficult are the disguised ships, with some flocks that just seem a little *off*. These infiltrators are looking to stop the galactic empires goals from the inside, which is why it's your job to stop them. These infiltrators can be identified by their slightly different look compared to regular ships and if they get past you, you lose more of your score. Once identified, intrudors can be blasted with your equiped laserbeam to nuetralise them, just be careful not to hit friendly ships, because it a very serious galactic crime.
+
+Your mission is progress through multiple different waves of ships that get progressively difficult. Captains orders for new briefings are sent to you to let you know of any updates that happen along the way. If you fail any of these rounds, you are fired from the job and are forced to restart. Instead, if you manage to survive all of these waves, you will be recieved a secret reward.
