@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cje0dj4b2na8s"]
+
+[ext_resource type="PackedScene" uid="uid://cjb0v7ofk5qio" path="res://Scenes/Boid.tscn" id="1_r150o"]
+
+[node name="Main" type="Node3D" unique_id=518567241]
+
+[node name="boid" parent="." unique_id=1764301355 instance=ExtResource("1_r150o")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
+transform = Transform3D(-0.9999969, 0, 0.002495914, 0.001584502, 0.77264494, 0.63483644, -0.0019284553, 0.6348384, -0.77264255, 0, 10.251814, -6.4146957)
