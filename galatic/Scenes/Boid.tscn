@@ -1,8 +1,7 @@
 [gd_scene format=3 uid="uid://cjb0v7ofk5qio"]
 
-[ext_resource type="Script" uid="uid://cli4d14h0s0xh" path="res://Scripts/player.gd" id="1_pywc3"]
 [ext_resource type="Script" uid="uid://p4jyj2ug8udw" path="res://Scripts/trail_renderer.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://bylu6abfrb8hd" path="res://Models/cobramk3/cobramk3.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://dbc8i8dbxiph3" path="res://Scenes/Assets/Final/PlayerShip.tscn" id="4_13yrq"]
 
 [sub_resource type="BoxShape3D" id="14"]
 size = Vector3(6.10159, nan, 4.62428)
@@ -15,26 +14,24 @@ point_count = 2
 albedo_color = Color(1, 0.960784, 0, 1)
 
 [node name="boid" type="CharacterBody3D" unique_id=1764301355]
-script = ExtResource("1_pywc3")
+
+[node name="Ship1" parent="." unique_id=1759432117 instance=ExtResource("4_13yrq")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1594251083]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0867062, 0, -0.17341)
+visible = false
 shape = SubResource("14")
 
 [node name="TrailRenderer" type="Node3D" parent="." unique_id=2139352035]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.31773, -0.160274, -1.00958)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.25, 1.05)
 script = ExtResource("2")
-width = 1.7
 width_curve = SubResource("15")
-max_points = 50
+max_points = 20
 material = SubResource("16")
 
-[node name="CobraMk3" parent="." unique_id=831694039 instance=ExtResource("3")]
-
 [node name="TrailRenderer2" type="Node3D" parent="." unique_id=1913908269]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.37491, -0.160274, -1.00958)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.354, 0.25, 1.05)
 script = ExtResource("2")
-width = 1.7
 width_curve = SubResource("15")
-max_points = 50
+max_points = 20
 material = SubResource("16")

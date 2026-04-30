@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dbc8i8dbxiph3"]
+
+[ext_resource type="PackedScene" uid="uid://fq1rxku50h3k" path="res://Scenes/Assets/Inherited/SpaceCraft.tscn" id="1_s4sdg"]
+[ext_resource type="Script" uid="uid://cli4d14h0s0xh" path="res://Scripts/player.gd" id="1_s8gdw"]
+[ext_resource type="Script" uid="uid://p4jyj2ug8udw" path="res://Scripts/trail_renderer.gd" id="2_g24b5"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_elkp0"]
+height = 0.75
+radius = 1.1
+
+[sub_resource type="Curve" id="Curve_s8gdw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272tm"]
+albedo_color = Color(1, 0.960784, 0, 1)
+
+[node name="PlayerShip" type="CharacterBody3D" unique_id=1759432117]
+script = ExtResource("1_s8gdw")
+
+[node name="craft_speederA2" parent="." unique_id=1114048911 instance=ExtResource("1_s4sdg")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1561901520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016370773, 0.4126588, 0.16269952)
+shape = SubResource("CylinderShape3D_elkp0")
+
+[node name="TrailRenderer" type="Node3D" parent="." unique_id=799410624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.25, 1.05)
+script = ExtResource("2_g24b5")
+width_curve = SubResource("Curve_s8gdw")
+max_points = 20
+material = SubResource("StandardMaterial3D_272tm")
+
+[node name="TrailRenderer2" type="Node3D" parent="." unique_id=429984343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.354, 0.25, 1.05)
+script = ExtResource("2_g24b5")
+width_curve = SubResource("Curve_s8gdw")
+max_points = 20
+material = SubResource("StandardMaterial3D_272tm")

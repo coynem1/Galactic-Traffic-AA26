@@ -49,6 +49,14 @@ func random_point_in_unit_sphere() -> Vector3:
 	var v = Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1))
 	return v.normalized() * randf()
 	
+func _find_leader():
+	if offsetPursueEnabled:
+		leaderBoid = get_node_or_null(leaderNodePath)
+		print("leader: ", leaderBoid)
+		print("leaderOffset will be: ", (transform.origin) * leaderBoid.transform.basis)
+	if jitterWanderEnabled:
+		wanderTarget = random_point_in_unit_sphere() * radius
+
 func on_draw_gizmos():
 	
 	# DebugDraw.draw_line(transform.origin,  transform.origin + transform.basis.z * 10.0 , Color(0, 0, 1))
@@ -96,9 +104,13 @@ func pursue():
 # Called when the node enters the scene tree for the first time.
 func _ready():	
 	randomize()
+	call_deferred("_find_leader")
 	var screen_size = DisplayServer.screen_get_size()
 	var window_size = get_window().get_size()
 	10
+	print("leaderBoid: ", leaderBoid)
+	print("my position: ", global_position)
+	print("offsetPursueEnabled: ", offsetPursueEnabled)
 	# OS.set_window_position(screen_size*0.5 - window_size*0.5)
 
 	if targetNodePath:	
@@ -118,6 +130,8 @@ func _ready():
 func seek(target: Vector3):	
 	var toTarget = target - transform.origin
 	toTarget = toTarget.normalized()
+	if toTarget.length() < 0.001:  
+		return Vector3.ZERO
 	var desired = toTarget * max_speed
 	return desired - velocity
 
@@ -135,6 +149,8 @@ func controllerSteering():
 func arrive(target:Vector3):
 	var toTarget = target - transform.origin
 	var dist = toTarget.length()
+	if dist < 0.001:  # ADD THIS GUARD
+		return Vector3.ZERO
 	var ramped = (dist / slowingDistance) * max_speed
 	var limit_length = min(max_speed, ramped)
 	var desired = (toTarget * limit_length) / dist 
@@ -147,15 +163,16 @@ func followPath():
 		pathIndex = (pathIndex + 1) % path.get_curve().get_point_count()
 	return seek(path.transform * (path.get_curve().get_point_position(pathIndex)))
 	
+
 func offsetPursue():
-	var worldTarget = leaderBoid.transform.basis * (leaderOffset)
+	if leaderBoid == null:
+		return Vector3.ZERO
+	var worldTarget = leaderBoid.global_transform.origin + leaderBoid.transform.basis * leaderOffset
 	var dist = transform.origin.distance_to(worldTarget)
+	if dist < 0.001:
+		return Vector3.ZERO
 	var time = dist / max_speed
-	
 	var projected = worldTarget + leaderBoid.velocity * time
-	
-	# DebugDraw.draw_sphere(projected, 1, Color.red)
-	
 	return arrive(projected)
 
 func calculate():
@@ -171,7 +188,7 @@ func calculate():
 		f += followPath()
 	if pursueEnabled:
 		f += pursue()
-	if offsetPursueEnabled:
+	if offsetPursueEnabled and leaderBoid != null:
 		f += offsetPursue()
 	if controllerSteeringEnabled:
 		f += controllerSteering()
@@ -181,6 +198,8 @@ func calculate():
 	
 func _physics_process(delta):			
 	force = calculate()
+	if mass == null or mass == 0:
+		mass = 1
 	acceleration = force / mass
 	velocity += acceleration * delta
 	speed = velocity.length()

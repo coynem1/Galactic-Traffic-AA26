@@ -10,7 +10,7 @@ func _ready():
 func _physics_process(delta) -> void:
 	seekTarget = get_mouse_world_position()
 	super._physics_process(delta)  # runs all the boid steering
-	print("target: ", seekTarget, " pos: ", global_position, " vel: ", velocity)
+	#print("target: ", seekTarget, " pos: ", global_position, " vel: ", velocity)
 
 func get_mouse_world_position() -> Vector3:
 	var mouse_pos = get_viewport().get_mouse_position()

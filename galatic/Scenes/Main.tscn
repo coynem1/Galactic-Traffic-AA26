@@ -1,10 +1,32 @@
 [gd_scene format=3 uid="uid://cje0dj4b2na8s"]
 
-[ext_resource type="PackedScene" uid="uid://cjb0v7ofk5qio" path="res://Scenes/Boid.tscn" id="1_r150o"]
+[ext_resource type="PackedScene" uid="uid://bnpep3wlb20g5" path="res://Scenes/Assets/Final/FollowerShip.tscn" id="1_idj7w"]
+[ext_resource type="PackedScene" uid="uid://dbc8i8dbxiph3" path="res://Scenes/Assets/Final/PlayerShip.tscn" id="1_kln2b"]
+
+[sub_resource type="Environment" id="Environment_r150o"]
+background_mode = 1
+background_color = Color(0.7498752, 0.678063, 0.8599621, 1)
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
 
 [node name="Main" type="Node3D" unique_id=518567241]
 
-[node name="boid" parent="." unique_id=1764301355 instance=ExtResource("1_r150o")]
-
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
-transform = Transform3D(-0.9999969, 0, 0.002495914, 0.001584502, 0.77264494, 0.63483644, -0.0019284553, 0.6348384, -0.77264255, 0, 10.251814, -6.4146957)
+transform = Transform3D(0.99999714, -7.7591e-05, -0.0024014807, 0.0015845023, 0.77264494, 0.63483644, 0.0018062342, -0.6348384, 0.77264285, 0, 4.745803, 8.211203)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1052567503]
+environment = SubResource("Environment_r150o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1187346673]
+transform = Transform3D(-0.9889034, 0.14354971, 0.038256973, 0.14469156, 0.87228274, 0.46710512, 0.03368191, 0.46745726, -0.8833738, -0.5210357, 11.6090145, -14.6182165)
+
+[node name="FollowerShip" parent="." unique_id=1759432117 instance=ExtResource("1_idj7w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5946782, 0, 4.124032)
+offsetPursueEnabled = true
+leaderNodePath = NodePath("../PlayerShip")
+
+[node name="PlayerShip" parent="." unique_id=218459643 instance=ExtResource("1_kln2b")]
+max_speed = 5.0
+
+[editable path="FollowerShip"]
+[editable path="PlayerShip"]

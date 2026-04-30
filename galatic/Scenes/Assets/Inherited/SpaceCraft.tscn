@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://fq1rxku50h3k"]
+
+[ext_resource type="PackedScene" uid="uid://iwhvurrdvc2k" path="res://Models/Space/craft_speederA.glb" id="1_67nw4"]
+
+[node name="craft_speederA2" unique_id=1114048911 instance=ExtResource("1_67nw4")]
+
+[node name="craft_speederA" parent="." index="0" unique_id=749968825]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000949651, 0, -0.00018933415)
