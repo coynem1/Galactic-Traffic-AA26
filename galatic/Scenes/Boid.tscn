@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cjb0v7ofk5qio"]
+[gd_scene format=3 uid="uid://cnpf60vyydm8s"]
 
 [ext_resource type="Script" uid="uid://p4jyj2ug8udw" path="res://Scripts/trail_renderer.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dbc8i8dbxiph3" path="res://Scenes/Assets/Final/PlayerShip.tscn" id="4_13yrq"]

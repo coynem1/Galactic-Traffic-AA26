@@ -2,6 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://bnpep3wlb20g5" path="res://Scenes/Assets/Final/FollowerShip.tscn" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://dbc8i8dbxiph3" path="res://Scenes/Assets/Final/PlayerShip.tscn" id="1_kln2b"]
+[ext_resource type="Script" uid="uid://cogfej5gmr7fp" path="res://Scenes/spawner_factory.gd" id="3_kln2b"]
+[ext_resource type="PackedScene" uid="uid://b7cqk2iop8cbs" path="res://Scenes/Container.tscn" id="4_rgh2o"]
 
 [sub_resource type="Environment" id="Environment_r150o"]
 background_mode = 1
@@ -12,7 +14,8 @@ ambient_light_color = Color(1, 1, 1, 1)
 [node name="Main" type="Node3D" unique_id=518567241]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
-transform = Transform3D(0.99999714, -7.7591e-05, -0.0024014807, 0.0015845023, 0.77264494, 0.63483644, 0.0018062342, -0.6348384, 0.77264285, 0, 4.745803, 8.211203)
+transform = Transform3D(1, -4.3636636e-17, 6.1030736e-10, -3.911626e-10, 0.7676016, 0.64092726, -4.68473e-10, -0.64092726, 0.7676016, 0, 7.270367, 10.146747)
+fov = 90.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1052567503]
 environment = SubResource("Environment_r150o")
@@ -27,6 +30,12 @@ leaderNodePath = NodePath("../PlayerShip")
 
 [node name="PlayerShip" parent="." unique_id=218459643 instance=ExtResource("1_kln2b")]
 max_speed = 5.0
+
+[node name="SpawnerFactory" type="Node3D" parent="." unique_id=2034465316]
+script = ExtResource("3_kln2b")
+boid_scene = ExtResource("1_idj7w")
+
+[node name="Container" parent="." unique_id=1696708418 instance=ExtResource("4_rgh2o")]
 
 [editable path="FollowerShip"]
 [editable path="PlayerShip"]

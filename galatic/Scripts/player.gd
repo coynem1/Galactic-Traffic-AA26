@@ -7,10 +7,12 @@ func _ready():
 	seekEnabled = true
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta) -> void:
-	seekTarget = get_mouse_world_position()
-	super._physics_process(delta)  # runs all the boid steering
-	#print("target: ", seekTarget, " pos: ", global_position, " vel: ", velocity)
+func _physics_process(delta: float) -> void:
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		seekTarget = get_mouse_world_position()
+	else:
+		seekTarget = global_position  # seek own position = no force applied
+	super._physics_process(delta)
 
 func get_mouse_world_position() -> Vector3:
 	var mouse_pos = get_viewport().get_mouse_position()
