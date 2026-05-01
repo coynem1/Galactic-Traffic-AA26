@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://dbc8i8dbxiph3" path="res://Scenes/Assets/Final/PlayerShip.tscn" id="1_kln2b"]
 [ext_resource type="Script" uid="uid://cogfej5gmr7fp" path="res://Scenes/spawner_factory.gd" id="3_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7cqk2iop8cbs" path="res://Scenes/Container.tscn" id="4_rgh2o"]
+[ext_resource type="Script" uid="uid://cvvrs6nqj8xnn" path="res://Scripts/asteroid_spawner.gd" id="5_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://doism0itxll2v" path="res://Scenes/Assets/Final/Asteroid.tscn" id="6_v1gob"]
 
 [sub_resource type="Environment" id="Environment_r150o"]
 background_mode = 1
@@ -13,7 +15,7 @@ ambient_light_color = Color(1, 1, 1, 1)
 [node name="Main" type="Node3D" unique_id=518567241]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
-transform = Transform3D(1, -4.3636636e-17, 6.1030736e-10, -3.911626e-10, 0.7676016, 0.64092726, -4.68473e-10, -0.64092726, 0.7676016, 0, 7.270367, 10.146747)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 7.270367, 3.7711368)
 fov = 90.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1052567503]
@@ -30,11 +32,21 @@ leaderNodePath = NodePath("../PlayerShip")
 [node name="PlayerShip" parent="." unique_id=218459643 instance=ExtResource("1_kln2b")]
 max_speed = 5.0
 
-[node name="SpawnerFactory" type="Node3D" parent="." unique_id=2034465316]
+[node name="ShipSpawnerFactory" type="Node3D" parent="." unique_id=2034465316]
 script = ExtResource("3_kln2b")
 boid_scene = ExtResource("1_idj7w")
 
 [node name="Container" parent="." unique_id=1696708418 instance=ExtResource("4_rgh2o")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Asteroid_Spawner" type="Node3D" parent="." unique_id=1130363931]
+transform = Transform3D(1.685, 0, 0, 0, 1.685, 0, 0, 0, 1.685, 0, 0, 0)
+script = ExtResource("5_pbw6q")
+asteroid_scene = ExtResource("6_v1gob")
+spawn_interval = 1.0
+asteroid_speed = 2.0
+spawn_radius = 10.0
+destroy_radius = 11.0
 
 [editable path="FollowerShip"]
 [editable path="PlayerShip"]
