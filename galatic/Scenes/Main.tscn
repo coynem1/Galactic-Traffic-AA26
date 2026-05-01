@@ -10,10 +10,13 @@ background_mode = 1
 ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
 
+[sub_resource type="PlaneMesh" id="PlaneMesh_rgh2o"]
+size = Vector2(37.15, 26.06)
+
 [node name="Main" type="Node3D" unique_id=518567241]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
-transform = Transform3D(1, -4.3636636e-17, 6.1030736e-10, -3.911626e-10, 0.7676016, 0.64092726, -4.68473e-10, -0.64092726, 0.7676016, 0, 7.270367, 10.146747)
+transform = Transform3D(1, -7.833111e-17, 6.103076e-10, -6.0914623e-10, 0.061658353, 0.99809736, -3.7630628e-11, -0.99809736, 0.061658353, -1.9073486e-06, 17.188236, 2.2018204)
 fov = 90.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1052567503]
@@ -28,6 +31,7 @@ offsetPursueEnabled = true
 leaderNodePath = NodePath("../PlayerShip")
 
 [node name="PlayerShip" parent="." unique_id=218459643 instance=ExtResource("1_kln2b")]
+axis_lock_linear_y = true
 max_speed = 5.0
 
 [node name="SpawnerFactory" type="Node3D" parent="." unique_id=2034465316]
@@ -35,6 +39,12 @@ script = ExtResource("3_kln2b")
 boid_scene = ExtResource("1_idj7w")
 
 [node name="Container" parent="." unique_id=1696708418 instance=ExtResource("4_rgh2o")]
+transform = Transform3D(1.97, 0, 0, 0, 1.97, 0, 0, 0, 1.97, 0, 0, 0)
+
+[node name="Assets" type="Node3D" parent="." unique_id=2110826050]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Assets" unique_id=370714862]
+mesh = SubResource("PlaneMesh_rgh2o")
 
 [editable path="FollowerShip"]
 [editable path="PlayerShip"]

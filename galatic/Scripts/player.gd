@@ -18,7 +18,7 @@ func _physics_process(delta: float) -> void:
 func get_mouse_world_position() -> Vector3:
 	var mouse_pos = get_viewport().get_mouse_position()
 	var camera = get_viewport().get_camera_3d()
-	var plane = Plane(Vector3(0, 0, 1), global_transform.origin.z)
+	var plane = Plane(Vector3(0, 1, 0), global_transform.origin.z)
 	var from = camera.project_ray_origin(mouse_pos)
 	var dir = camera.project_ray_normal(mouse_pos)
 	var intersection = plane.intersects_ray(from, dir)
