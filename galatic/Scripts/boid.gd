@@ -61,8 +61,8 @@ func random_point_in_unit_sphere() -> Vector3:
 func _find_leader():
 	if offsetPursueEnabled:
 		leaderBoid = get_node_or_null(leaderNodePath)
-		print("leader: ", leaderBoid)
-		print("leaderOffset will be: ", (transform.origin) * leaderBoid.transform.basis)
+		#print("leader: ", leaderBoid)
+		#print("leaderOffset will be: ", (transform.origin) * leaderBoid.transform.basis)
 	if jitterWanderEnabled:
 		wanderTarget = random_point_in_unit_sphere() * radius
 
@@ -245,7 +245,7 @@ func _physics_process(delta):
 	speed = velocity.length()
 	if speed > 0.1:
 		velocity = velocity.limit_length(max_speed)
-		# var tempUp = transform.basis.y.lerp(Vector3.UP + (acceleration * banking), delta * 5.0) I comment this out to stop crash but might be needed for banking
+		#var tempUp = transform.basis.y.lerp(Vector3.UP + (acceleration * banking), delta * 5.0)	# I comment this out to stop crash but might be needed for banking
 		var look_target = global_position + velocity
 		if look_target.distance_to(global_position) > 0.001:
 			look_at(look_target, Vector3.UP)
