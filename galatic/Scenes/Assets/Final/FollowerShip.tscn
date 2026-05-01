@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bnpep3wlb20g5"]
 
-[ext_resource type="Script" uid="uid://swyy5yuvv7om" path="res://Scripts/boid.gd" id="1_5tp56"]
+[ext_resource type="Script" uid="uid://itjyfus7jfb7" path="res://follower.gd" id="1_5tp56"]
 [ext_resource type="PackedScene" uid="uid://fq1rxku50h3k" path="res://Scenes/Assets/Inherited/SpaceCraft.tscn" id="2_4hgby"]
 [ext_resource type="Script" uid="uid://p4jyj2ug8udw" path="res://Scripts/trail_renderer.gd" id="3_eqx34"]
 
@@ -17,6 +17,7 @@ radius = 1.1
 
 [node name="FollowerShip" type="CharacterBody3D" unique_id=1759432117]
 script = ExtResource("1_5tp56")
+slowingDistance = 5
 
 [node name="craft_speederA2" parent="." unique_id=1114048911 instance=ExtResource("2_4hgby")]
 

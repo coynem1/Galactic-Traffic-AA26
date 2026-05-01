@@ -13,6 +13,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		seekTarget = global_position  # seek own position = no force applied
 	super._physics_process(delta)
+	rotation = Vector3.ZERO
 
 func get_mouse_world_position() -> Vector3:
 	var mouse_pos = get_viewport().get_mouse_position()
