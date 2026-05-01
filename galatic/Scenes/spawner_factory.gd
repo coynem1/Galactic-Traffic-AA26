@@ -19,6 +19,22 @@ func spawn_boid() -> void:
 	var boid = boid_scene.instantiate()
 	add_child(boid)
 	boid.global_position = global_position
+	
+	# Wander
 	boid.jitterWanderEnabled = true
+	boid.distance = 20.0
+	boid.radius = 10.0
+	boid.jitter = 10.0
+	
+	# Avoidance
+	boid.avoidanceEnabled = true
+	boid.feeler_length = 10.0
+	boid.feeler_angle = 45.0
+	boid.avoidance_direction = boid.ForceDirection.Incident
+	#boid.avoidance_direction = boid.ForceDirection.Normal
+	
+	# Turn other stuff off
 	boid.seekEnabled = false
 	boid.offsetPursueEnabled = false
+	boid.pursueEnabled = false
+	boid.arriveEnabled = false

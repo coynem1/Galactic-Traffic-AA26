@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@export var mass = 1
+@export var mass: float = 1.0
 @export var force = Vector3.ZERO
 @export var acceleration = Vector3.ZERO
 @export var speed:float
@@ -17,7 +17,7 @@ var targetNode:Node
 @export var arriveTarget: Vector3
 @export var slowingDistance = 35
 
-@export var banking = 0.1
+@export var banking: float = 0.1
 
 @export var pathFollowEnabled = false
 var pathIndex = 0
@@ -35,7 +35,7 @@ var leaderBoid:Node
 var leaderOffset:Vector3
 
 @export var controllerSteeringEnabled = false
-@export var power = 30
+@export var power: float = 30.0
 
 @export var drawGizmos = false
 
@@ -44,6 +44,15 @@ var leaderOffset:Vector3
 @export var radius:float  = 10
 @export var jitter:float = 10
 var wanderTarget:Vector3
+
+@export var avoidanceEnabled = false
+@export var feeler_angle: float = 45.0
+@export var feeler_length: float = 10.0
+enum ForceDirection {Normal, Incident, Up, Braking}
+@export var avoidance_direction = ForceDirection.Normal
+var avoidance_force = Vector3.ZERO
+var needs_updating = true
+
 
 func random_point_in_unit_sphere() -> Vector3:
 	var v = Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1))
@@ -174,6 +183,35 @@ func offsetPursue():
 	var time = dist / max_speed
 	var projected = worldTarget + leaderBoid.velocity * time
 	return arrive(projected)
+	
+func feel(local_ray) -> Vector3:
+	var space_state = get_world_3d().direct_space_state
+	var ray_end = global_transform * local_ray
+	var query = PhysicsRayQueryParameters3D.create(global_transform.origin, ray_end, collision_mask)
+	var result = space_state.intersect_ray(query)
+	if result:
+		var to_boid = global_transform.origin - result.position
+		var force_mag = (feeler_length - to_boid.length()) / feeler_length
+		match avoidance_direction:
+			ForceDirection.Normal:
+				return result.normal * force_mag
+			ForceDirection.Incident:
+				return to_boid.reflect(result.normal).normalized() * force_mag
+			ForceDirection.Up:
+				return Vector3.UP * force_mag
+			ForceDirection.Braking:
+				return to_boid.normalized() * force_mag
+	return Vector3.ZERO
+
+func obstacleAvoidance() -> Vector3:
+	avoidance_force = Vector3.ZERO
+	var forwards = Vector3.BACK * feeler_length
+	avoidance_force += feel(forwards)
+	avoidance_force += feel(Quaternion(Vector3.UP, deg_to_rad(feeler_angle)) * forwards)
+	avoidance_force += feel(Quaternion(Vector3.UP, deg_to_rad(-feeler_angle)) * forwards)
+	avoidance_force += feel(Quaternion(Vector3.RIGHT, deg_to_rad(feeler_angle)) * forwards)
+	avoidance_force += feel(Quaternion(Vector3.RIGHT, deg_to_rad(-feeler_angle)) * forwards)
+	return avoidance_force
 
 func calculate():
 	var f = Vector3.ZERO
@@ -194,6 +232,8 @@ func calculate():
 		f += controllerSteering()
 	if jitterWanderEnabled:
 		f += (jitterWander())
+	if avoidanceEnabled:
+		f += obstacleAvoidance()
 	return f
 	
 func _physics_process(delta):			
@@ -203,9 +243,12 @@ func _physics_process(delta):
 	acceleration = force / mass
 	velocity += acceleration * delta
 	speed = velocity.length()
-	if speed > 0:
+	if speed > 0.1:
 		velocity = velocity.limit_length(max_speed)
 		# var tempUp = transform.basis.y.lerp(Vector3.UP + (acceleration * banking), delta * 5.0) I comment this out to stop crash but might be needed for banking
+		var look_target = global_position + velocity
+		if look_target.distance_to(global_position) > 0.001:
+			look_at(look_target, Vector3.UP)
 	if drawGizmos:
 		on_draw_gizmos()	
 	move_and_slide()
