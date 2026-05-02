@@ -16,7 +16,9 @@ extends Node3D
 
 var timer: float = 0.0
 var active_formations: int = 0
+var formation_colour := Color.from_hsv(randf(), 1.0, 1.0)	# Random Hue
 
+# TODO: Clean this jank
 func _process(delta: float) -> void:
 	timer += delta
 	if timer >= spawn_interval:
