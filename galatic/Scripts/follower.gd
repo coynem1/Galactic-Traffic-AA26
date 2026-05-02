@@ -3,10 +3,9 @@ extends "res://Scripts/boid.gd"
 
 func _ready():
 	super._ready()
-	offsetPursueEnabled = true
+	seekEnabled = true
 
 func _physics_process(delta: float) -> void:
-	super._physics_process(delta)
-	# Match leader's rotation
 	if leaderBoid != null:
-		rotation = leaderBoid.rotation
+		seekTarget = leaderBoid.global_transform.origin + leaderBoid.transform.basis * leaderOffset
+	super._physics_process(delta)

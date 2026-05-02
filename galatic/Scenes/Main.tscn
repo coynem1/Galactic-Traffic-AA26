@@ -2,10 +2,12 @@
 
 [ext_resource type="PackedScene" uid="uid://bnpep3wlb20g5" path="res://Scenes/Assets/Final/FollowerShip.tscn" id="1_idj7w"]
 [ext_resource type="PackedScene" uid="uid://dbc8i8dbxiph3" path="res://Scenes/Assets/Final/PlayerShip.tscn" id="1_kln2b"]
-[ext_resource type="Script" uid="uid://cogfej5gmr7fp" path="res://Scenes/spawner_factory.gd" id="3_kln2b"]
+[ext_resource type="Script" uid="uid://cogfej5gmr7fp" path="res://Scripts/spawner_factory.gd" id="3_kln2b"]
 [ext_resource type="PackedScene" uid="uid://b7cqk2iop8cbs" path="res://Scenes/Container.tscn" id="4_rgh2o"]
 [ext_resource type="Script" uid="uid://cvvrs6nqj8xnn" path="res://Scripts/asteroid_spawner.gd" id="5_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://doism0itxll2v" path="res://Scenes/Assets/Final/Asteroid.tscn" id="6_v1gob"]
+[ext_resource type="Script" uid="uid://85c3nydto6bg" path="res://Scripts/formation_factory.gd" id="7_jw32o"]
+[ext_resource type="PackedScene" uid="uid://54ugtatetym3" path="res://Scenes/formation.tscn" id="8_50glp"]
 
 [sub_resource type="Environment" id="Environment_r150o"]
 background_mode = 1
@@ -18,7 +20,7 @@ size = Vector2(37.15, 26.06)
 [node name="Main" type="Node3D" unique_id=518567241]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
-transform = Transform3D(1, -7.833111e-17, 6.103076e-10, -6.0914623e-10, 0.061658353, 0.99809736, -3.7630628e-11, -0.99809736, 0.061658353, -1.9073486e-06, 17.188236, 2.2018204)
+transform = Transform3D(1, -7.4861665e-17, 6.103075e-10, -6.0914623e-10, 0.061658353, 0.99809736, -3.7630628e-11, -0.99809736, 0.061658353, -1.9073486e-06, 17.188236, 2.2018204)
 fov = 90.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1052567503]
@@ -39,24 +41,32 @@ max_speed = 5.0
 [node name="ShipSpawnerFactory" type="Node3D" parent="." unique_id=2034465316]
 script = ExtResource("3_kln2b")
 boid_scene = ExtResource("1_idj7w")
+max_boids = 0
 
 [node name="Container" parent="." unique_id=1696708418 instance=ExtResource("4_rgh2o")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 
 [node name="Asteroid_Spawner" type="Node3D" parent="." unique_id=1130363931]
-transform = Transform3D(1.685, 0, 0, 0, 1.685, 0, 0, 0, 1.685, 0, 0, 0)
+transform = Transform3D(1.97, 0, 0, 0, 1.97, 0, 0, 0, 1.97, 0, 0, 0)
 script = ExtResource("5_pbw6q")
 asteroid_scene = ExtResource("6_v1gob")
-spawn_interval = 1.0
+spawn_interval = 10.0
 asteroid_speed = 2.0
-spawn_radius = 10.0
-destroy_radius = 11.0
-transform = Transform3D(1.97, 0, 0, 0, 1.97, 0, 0, 0, 1.97, 0, 0, 0)
+spawn_radius = 30.0
+destroy_radius = 31.0
 
 [node name="Assets" type="Node3D" parent="." unique_id=2110826050]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Assets" unique_id=370714862]
 mesh = SubResource("PlaneMesh_rgh2o")
+
+[node name="Formation_Spawner" type="Node3D" parent="." unique_id=596904330]
+script = ExtResource("7_jw32o")
+formation_scene = ExtResource("8_50glp")
+leader_scene = ExtResource("1_idj7w")
+follower_scene = ExtResource("1_idj7w")
+spawn_interval = 5.0
+spawn_radius = 10.0
 
 [editable path="FollowerShip"]
 [editable path="PlayerShip"]

@@ -23,7 +23,7 @@ func spawn_asteroid() -> void:
 	var angle = randf_range(0, TAU)
 	var spawn_pos = Vector3(
 		cos(angle) * spawn_radius,
-		randf_range(-5.0, 5.0),
+		0.0,
 		sin(angle) * spawn_radius
 	)
 	
@@ -32,7 +32,7 @@ func spawn_asteroid() -> void:
 	# Fire it toward the center with a bit of offset
 	var target = Vector3(
 		randf_range(-5.0, 5.0),
-		randf_range(-5.0, 5.0),
+		0.0,
 		randf_range(-5.0, 5.0),
 	)
 	var direction = (target - spawn_pos).normalized()
