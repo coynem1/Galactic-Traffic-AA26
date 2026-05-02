@@ -15,6 +15,7 @@ enum FormationType {DIAMOND, LINE, V_SHAPE}
 @export var formation_scale: float = 0.2
 
 var leader: CharacterBody3D
+var formation_colour := Color.from_hsv(randf(), 1.0, 1.0)	# Random Hue
 var dying: bool = false
 var dying_timer: float = 0.0
 @export var dying_timeout: float = 10.0  # tweak this based on your boundary size and speed
@@ -22,10 +23,10 @@ var dying_timer: float = 0.0
 signal formation_destroyed
 
 func setup(type: FormationType, spawn_pos: Vector3) -> void:
-		formation_type = type
-		global_position = spawn_pos
-		spawn_leader()
-		spawn_followers()
+	formation_type = type
+	global_position = spawn_pos
+	spawn_leader()
+	spawn_followers()
 		
 func spawn_leader() -> void:
 	leader = leader_scene.instantiate()
@@ -40,6 +41,8 @@ func spawn_leader() -> void:
 	
 	var area = leader.get_node("Area3D")
 	area.body_entered.connect(_on_leader_hit)
+	
+	leader.set_colour(formation_colour, true)
 	
 func _on_leader_hit(body: Node) -> void:
 	if body is StaticBody3D and not dying:
@@ -60,6 +63,7 @@ func start_dying() -> void:
 
 func spawn_followers() -> void:
 	var offsets := get_offsets()
+	var desaturated_colour = Color.from_hsv(formation_colour.h, formation_colour.h, 0.3)
 	
 	for i in range(offsets.size()):
 		var follower := follower_scene.instantiate()
@@ -73,8 +77,11 @@ func spawn_followers() -> void:
 		follower.seekEnabled = true
 		follower.max_speed = max_speed
 		
+		follower.set_colour(desaturated_colour, false)
+		
 		# Get the followers area 3d
 		area.body_entered.connect(_on_follower_hit.bind(follower))
+	
 
 func _on_follower_hit(body: Node, follower: CharacterBody3D) -> void:
 	if body is StaticBody3D:

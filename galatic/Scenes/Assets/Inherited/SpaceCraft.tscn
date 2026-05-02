@@ -1,21 +1,15 @@
 [gd_scene format=3 uid="uid://fq1rxku50h3k"]
 
 [ext_resource type="PackedScene" uid="uid://iwhvurrdvc2k" path="res://Models/Space/craft_speederA.glb" id="1_67nw4"]
-[ext_resource type="Shader" uid="uid://duu82j220tgpv" path="res://Scenes/Assets/Inherited/SpaceCraft.gdshader" id="2_c15j6"]
 [ext_resource type="Script" uid="uid://b4g1jwy8wn7ag" path="res://Scenes/Assets/Inherited/spaceshipModel.gd" id="2_y1mrd"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yw000"]
-render_priority = 0
-shader = ExtResource("2_c15j6")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y1mrd"]
 albedo_color = Color(0.1728327, 0.17283267, 0.17283267, 1)
 roughness = 0.25
 
 [node name="craft_speederA2" unique_id=1114048911 instance=ExtResource("1_67nw4")]
+script = ExtResource("2_y1mrd")
 
 [node name="craft_speederA" parent="." index="0" unique_id=1789723465]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000949651, 0, -0.00018933415)
-surface_material_override/1 = SubResource("ShaderMaterial_yw000")
 surface_material_override/2 = SubResource("StandardMaterial3D_y1mrd")
-script = ExtResource("2_y1mrd")

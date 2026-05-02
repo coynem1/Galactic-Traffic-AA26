@@ -1,24 +1,26 @@
-extends MeshInstance3D
+extends Node3D
+
+@onready var model: MeshInstance3D = $craft_speederA
 
 enum materials {
-	Wings,
-	Body,
-	Glass,
-	Details
+	Wings = 0,
+	Body = 1,
+	Glass = 2,
+	Details = 3
 }
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	update_status(false)
-
-# Leaders are brighter
-func update_status(leader: bool):
-	if leader:
-		_change_colour(materials.Body, Color.from_hsv(randf(), 1.0, 1.0))
+# General public setter
+func set_colour(colour: Color, full: bool):
+	if full:
+		_change_part_colour(materials.Body, colour)
+		_change_part_colour(materials.Wings, colour)
 	else:
-		_change_colour(materials.Body, Color(0.536, 0.712, 0.84, 1.0))
+		_change_part_colour(materials.Body, colour)
+		_change_part_colour(materials.Wings, Color(1.0, 1.0, 1.0, 1.0))
 
-func _change_colour(surface: materials, colour: Color):
-	var mat = get_surface_override_material(surface).duplicate()
-	set_surface_override_material(surface, mat)
-	set_instance_shader_parameter("albedo_color", colour)
+func _change_part_colour(surface: materials, colour: Color):
+	var new_mat = StandardMaterial3D.new()
+	new_mat.albedo_color = colour
+	new_mat.roughness = 0.2
+	model.set_surface_override_material(surface, new_mat)
+	

@@ -20,7 +20,7 @@ axis_lock_linear_y = true
 script = ExtResource("1_5tp56")
 slowingDistance = 5
 
-[node name="craft_speederA2" parent="." unique_id=1114048911 instance=ExtResource("2_4hgby")]
+[node name="spaceship" parent="." unique_id=1114048911 instance=ExtResource("2_4hgby")]
 
 [node name="TrailRenderer" type="Node3D" parent="." unique_id=799410624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.25, 1.05)

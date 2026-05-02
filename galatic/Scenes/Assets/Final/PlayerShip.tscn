@@ -15,7 +15,7 @@ point_count = 2
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272tm"]
 albedo_color = Color(1, 0.960784, 0, 1)
 
-[node name="Ship" type="CharacterBody3D" unique_id=1759432117]
+[node name="LeaderShip" type="CharacterBody3D" unique_id=1759432117]
 script = ExtResource("1_s8gdw")
 
 [node name="craft_speederA2" parent="." unique_id=1114048911 instance=ExtResource("1_s4sdg")]
