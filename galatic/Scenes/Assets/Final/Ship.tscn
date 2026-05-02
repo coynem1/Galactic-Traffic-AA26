@@ -15,7 +15,7 @@ albedo_color = Color(1, 0.960784, 0, 1)
 height = 0.8
 radius = 1.1
 
-[node name="FollowerShip" type="CharacterBody3D" unique_id=1759432117]
+[node name="Ship" type="CharacterBody3D" unique_id=1759432117]
 axis_lock_linear_y = true
 script = ExtResource("1_5tp56")
 slowingDistance = 5
