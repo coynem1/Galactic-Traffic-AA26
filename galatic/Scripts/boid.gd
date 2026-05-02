@@ -59,7 +59,9 @@ func random_point_in_unit_sphere() -> Vector3:
 	return v.normalized() * randf()
 	
 func _find_leader():
-	if offsetPursueEnabled:
+	if leaderBoid != null:	# Already assigned
+		return
+	if offsetPursueEnabled and leaderNodePath:
 		leaderBoid = get_node_or_null(leaderNodePath)
 		#print("leader: ", leaderBoid)
 		#print("leaderOffset will be: ", (transform.origin) * leaderBoid.transform.basis)
@@ -79,28 +81,17 @@ func on_draw_gizmos():
 	if (arriveEnabled):
 		DebugDraw3D.draw_sphere(targetNode.position, slowingDistance, Color.BLUE_VIOLET)
 
-func jitterWander():
-	var delta = get_process_delta_time()
-
-	var disp = jitter * random_point_in_unit_sphere() * delta
-	wanderTarget += disp
-	wanderTarget.y = 0;
-	wanderTarget = wanderTarget.limit_length(radius)
-	# print("wanderTarget" + str(wanderTarget))
-	var localTarget = (Vector3.FORWARD * distance) + wanderTarget;
-
-	var worldTarget = global_transform * (localTarget)
-	# print("world" + str(worldTarget))
-	
-	var cent = global_transform * (Vector3.FORWARD * distance)
-	DebugDraw3D.draw_sphere(cent, radius, Color.DEEP_PINK)
-	DebugDraw3D.draw_line(global_transform.origin, cent, Color.YELLOW_GREEN)
-	DebugDraw3D.draw_line(cent, worldTarget, Color.BLUE_VIOLET)
-	
-	DebugDraw3D.draw_sphere(worldTarget, 1)
-	var f = worldTarget - global_transform.origin;
-	DebugDraw3D.draw_line(global_transform.origin, global_transform.origin + f)
-	return f
+func jitterWander() -> Vector3:
+	# Add jitter in world space
+	wanderTarget += Vector3(
+		randf_range(-1, 1) * jitter,
+		0.0,  # keep on same Y plane
+		randf_range(-1, 1) * jitter
+	)
+	wanderTarget = wanderTarget.normalized() * radius
+	# Project target in front of boid in world space
+	var worldTarget = global_transform.origin + (-global_transform.basis.z * distance) + wanderTarget
+	return seek(worldTarget)
 	
 
 func pursue():
