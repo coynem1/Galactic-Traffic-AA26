@@ -10,19 +10,11 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if selected:
-		seekTarget = get_mouse_world_position()
+		seekTarget = Util.get_mouse_world_position(global_position)
 	else:
 		seekTarget = global_position  # seek own position = no force applied
+		
 	super._physics_process(delta)
-
-func get_mouse_world_position() -> Vector3:
-	var mouse_pos = get_viewport().get_mouse_position()
-	var camera = get_viewport().get_camera_3d()
-	var plane = Plane(Vector3(0, 1, 0), global_transform.origin.z)
-	var from = camera.project_ray_origin(mouse_pos)
-	var dir = camera.project_ray_normal(mouse_pos)
-	var intersection = plane.intersects_ray(from, dir)
-	return intersection if intersection else global_transform.origin
 
 
 func _on_grabpoint_grabbing(value: bool) -> void:

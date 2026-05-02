@@ -31,9 +31,9 @@ func setup(type: FormationType, spawn_pos: Vector3) -> void:
 func spawn_leader() -> void:
 	leader = leader_scene.instantiate()
 	add_child(leader)
+	
+	leader.leader = true
 	leader.global_position = global_position
-	#leader.jitterWanderEnabled = true
-	#leader.seekEnabled = false
 	leader.max_speed = max_speed
 	leader.distance = wander_distance  
 	leader.radius = wander_radius      
@@ -43,6 +43,7 @@ func spawn_leader() -> void:
 	area.body_entered.connect(_on_leader_hit)
 	
 	leader.set_colour(formation_colour, true)
+	leader.init()
 	
 func _on_leader_hit(body: Node) -> void:
 	if body is StaticBody3D and not dying:

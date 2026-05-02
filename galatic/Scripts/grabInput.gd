@@ -24,3 +24,12 @@ func _on_area_3d_input_event(camera: Node, event: InputEvent, event_position: Ve
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			selected = true
 			grabbing.emit(true)
+
+# For optimisation and control
+func enabled(value: bool):
+	area_3d.monitorable = value
+	area_3d.monitoring = value
+	
+	# In case disabled before unselecting	
+	if not value:
+		selected = false
