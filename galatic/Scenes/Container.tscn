@@ -1,42 +1,55 @@
 [gd_scene format=3 uid="uid://b7cqk2iop8cbs"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_e5hpk"]
+margin = 0.01
 size = Vector3(0.2, 20, 20)
 
 [node name="Container" type="Node3D" unique_id=1696708418]
 
 [node name="Back" type="StaticBody3D" parent="." unique_id=1579263833]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Back" unique_id=1257330880]
 shape = SubResource("BoxShape3D_e5hpk")
 
 [node name="Front" type="StaticBody3D" parent="." unique_id=1019413584]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Front" unique_id=1781960220]
 shape = SubResource("BoxShape3D_e5hpk")
 
 [node name="Right" type="StaticBody3D" parent="." unique_id=1989696916]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 10)
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Right" unique_id=1577058697]
 shape = SubResource("BoxShape3D_e5hpk")
 
 [node name="Left" type="StaticBody3D" parent="." unique_id=808029184]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, -10)
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Left" unique_id=1735878255]
 shape = SubResource("BoxShape3D_e5hpk")
 
 [node name="Top" type="StaticBody3D" parent="." unique_id=750861467]
 transform = Transform3D(-7.5497894e-08, 1, -1.5099579e-07, 0.99999994, 7.54979e-08, 0, 1.1399866e-14, -1.509958e-07, -0.99999994, 0, 10, 0)
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Top" unique_id=564772869]
 shape = SubResource("BoxShape3D_e5hpk")
 
 [node name="Bottom" type="StaticBody3D" parent="." unique_id=2041485872]
 transform = Transform3D(4.3711385e-08, 1, 8.742277e-08, 0.99999994, -4.371139e-08, 0, 3.8213705e-15, 8.742278e-08, -0.99999994, 0, -10, 0)
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Bottom" unique_id=245955153]
 transform = Transform3D(0.9999997, -1.721332e-21, -5.9292306e-21, -2.1316284e-14, 1, -4.2632564e-14, -8.4703295e-22, 0, 0.9999997, 0, 0, 0)
