@@ -15,6 +15,9 @@ enum FormationType {DIAMOND, LINE, V_SHAPE}
 @export var formation_scale: float = 0.2
 
 var leader: CharacterBody3D
+var dying: bool = false
+var dying_timer: float = 0.0
+@export var dying_timeout: float = 10.0  # tweak this based on your boundary size and speed
 
 func setup(type: FormationType, spawn_pos: Vector3) -> void:
 		formation_type = type
@@ -35,10 +38,25 @@ func spawn_leader() -> void:
 	var area = leader.get_node("Area3D")
 	area.body_entered.connect(_on_leader_hit)
 	
+	
+signal formation_destroyed
+
 func _on_leader_hit(body: Node) -> void:
-	if body is StaticBody3D:
-		queue_free()
+	if body is StaticBody3D and not dying:
+		start_dying()
 		
+func start_dying() -> void:
+	if dying:
+		return
+	dying = true
+	for child in get_children():
+		if child is CharacterBody3D:
+			child.seekEnabled = false
+			child.jitterWanderEnabled = true
+	if is_instance_valid(leader):
+		leader.queue_free()
+		leader = null
+
 func spawn_followers() -> void:
 	var offsets = get_offsets()
 	for i in range(offsets.size()):
@@ -49,7 +67,15 @@ func spawn_followers() -> void:
 		follower.offsetPursueEnabled = false
 		follower.seekEnabled = true
 		follower.max_speed = max_speed
+		# Get the followers area 3d
+		var area = follower.get_node("Area3D")
+		area.body_entered.connect(_on_follower_hit.bind(follower))
 
+func _on_follower_hit(body: Node, follower: CharacterBody3D) -> void:
+	if body is StaticBody3D:
+		if is_instance_valid(follower):
+			follower.queue_free()
+			
 func get_offsets() -> Array:
 	var raw = []
 	match formation_type:
@@ -75,4 +101,20 @@ func get_offsets() -> Array:
 				Vector3(6,0,6),
 			]
 	return raw.map(func(v): return v * formation_scale)
+	
+	
+func _process(delta: float) -> void:
+	# Also start dying if leader was destroyed externally e.g by asteroid
+	if not dying and (leader == null or not is_instance_valid(leader)):
+		start_dying()
+	if dying:
+		dying_timer += delta
+		var all_dead = true
+		for child in get_children():
+			if is_instance_valid(child) and not child.is_queued_for_deletion():
+				all_dead = false
+				break
+		if all_dead or dying_timer >= dying_timeout:
+			formation_destroyed.emit()
+			queue_free()
 		

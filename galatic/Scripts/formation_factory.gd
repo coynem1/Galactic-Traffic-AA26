@@ -15,6 +15,7 @@ extends Node3D
 @export var formation_scale: float = 1.0
 
 var timer: float = 0.0
+var active_formations: int = 0
 
 func _process(delta: float) -> void:
 	timer += delta
@@ -26,6 +27,8 @@ func _process(delta: float) -> void:
 func spawn_formation() -> void:
 	var formation = formation_scene.instantiate()
 	add_child(formation)
+	active_formations += 1
+	formation.formation_destroyed.connect(_on_formation_destroyed)
 	
 	formation.leader_scene = leader_scene
 	formation.follower_scene = follower_scene
@@ -35,17 +38,16 @@ func spawn_formation() -> void:
 	formation.wander_jitter = wander_jitter
 	formation.formation_scale = formation_scale
 	
-	# Picking a random formation type
 	var type = randi() % 3
-	# Picking a random spot to spawn
 	var angle = randf_range(0, TAU)
 	var spawn_pos = Vector3(
 		cos(angle) * spawn_radius,
 		0.0,
 		sin(angle) * spawn_radius
 	)
-	formation.leader_scene = leader_scene
-	formation.follower_scene = follower_scene
 	formation.setup(type, spawn_pos)
+	
+func _on_formation_destroyed() -> void:
+	active_formations -= 1
 	
 			
