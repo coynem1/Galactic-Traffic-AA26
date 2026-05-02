@@ -245,10 +245,13 @@ func _physics_process(delta):
 	speed = velocity.length()
 	if speed > 0.1:
 		velocity = velocity.limit_length(max_speed)
-		#var tempUp = transform.basis.y.lerp(Vector3.UP + (acceleration * banking), delta * 5.0)	# I comment this out to stop crash but might be needed for banking
+		var tempUp = transform.basis.y.lerp(Vector3.UP + (acceleration * banking), delta * 5.0)	# I comment this out to stop crash but might be needed for banking
 		var look_target = global_position + velocity
+		
 		if look_target.distance_to(global_position) > 0.001:
 			look_at(look_target, Vector3.UP)
+			var temp_up = global_basis.y.lerp(Vector3.UP + acceleration * banking, delta * 5)
+			look_at(global_position + velocity, temp_up)
 	if drawGizmos:
 		on_draw_gizmos()	
 	move_and_slide()
