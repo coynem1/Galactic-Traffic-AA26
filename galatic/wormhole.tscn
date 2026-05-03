@@ -1,6 +1,10 @@
-[gd_scene format=3 uid="uid://dfa0hkrxusqts"]
+[gd_scene format=3 uid="uid://ba0u2ujy5cre8"]
 
-[ext_resource type="Shader" uid="uid://du71dfpukn105" path="res://Models/Shaders/wormhole.gdshader" id="1_s1bdh"]
+[ext_resource type="Script" uid="uid://drve2ljkv5y04" path="res://Scripts/wormhole.gd" id="1_7lqgt"]
+[ext_resource type="Shader" path="res://Models/Shaders/wormhole.gdshader" id="1_s1bdh"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_s1bdh"]
+radius = 1.7713851
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_s1bdh"]
 size = Vector2(5, 5)
@@ -31,7 +35,15 @@ shader_parameter/interpolate = true
 shader_parameter/falloff = 2.5
 
 [node name="Wormhole" type="Node3D" unique_id=1780791626]
+script = ExtResource("1_7lqgt")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1679959063]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=961099579]
+shape = SubResource("SphereShape3D_s1bdh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=319946845]
 mesh = SubResource("PlaneMesh_s1bdh")
 surface_material_override/0 = SubResource("ShaderMaterial_7lqgt")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

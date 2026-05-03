@@ -7,6 +7,8 @@ This represents the ship for either a leader or follower
 @onready var spaceship: Node3D = $spaceship
 @onready var grabpoint: Node3D = $Grabpoint
 
+signal teleported
+
 var _is_dying: bool = false
 var base_max_speed: float
 var selected: bool = false

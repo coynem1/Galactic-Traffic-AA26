@@ -19,7 +19,6 @@ radius = 1.1
 [node name="Ship" type="CharacterBody3D" unique_id=1759432117]
 axis_lock_linear_y = true
 script = ExtResource("1_5tp56")
-slowingDistance = 5
 
 [node name="spaceship" parent="." unique_id=1114048911 instance=ExtResource("2_4hgby")]
 
