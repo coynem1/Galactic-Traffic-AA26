@@ -53,9 +53,19 @@ func _physics_process(delta: float) -> void:
 
 func _leader_movement():
 	if selected:
+		jitterWanderEnabled = false
+		seekEnabled = true
 		seekTarget = Util.get_mouse_world_position(global_position)
+		# Debug
+		DebugDraw3D.draw_sphere(seekTarget, 0.5, Color.GREEN)
+		DebugDraw3D.draw_sphere(global_position, 0.3, Color.RED)
+		DebugDraw3D.draw_line(global_position, seekTarget, Color.YELLOW)
+		DebugDraw3D.draw_line(global_position, global_position + velocity * 2, Color.BLUE)
+		DebugDraw3D.draw_line(global_position, global_position + force * 2, Color.ORANGE)
 	else:
-		seekTarget = global_position  # seek own position = no force applied
+		seekEnabled = false
+		jitterWanderEnabled = true
+		seekTarget = global_position
 
 func _followerMovement():
 	if leaderBoid != null and is_instance_valid(leaderBoid):
