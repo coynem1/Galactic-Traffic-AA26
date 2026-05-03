@@ -1,3 +1,4 @@
+class_name Ship
 extends Boid
 
 '''
@@ -6,8 +7,6 @@ This represents the ship for either a leader or follower
 
 @onready var spaceship: Node3D = $spaceship
 @onready var grabpoint: Node3D = $Grabpoint
-
-signal teleported
 
 var _is_dying: bool = false
 var base_max_speed: float
@@ -24,12 +23,13 @@ func _ready():
 	#if leader:
 		#offsetPursueEnabled = true
 
-# Set during runtime for defaults
+# Set during runtime to get default variables
 func init():
 	base_max_speed = max_speed
 	
 	if leader:
-		wanderTarget = Vector3.ZERO
+		pass
+		#wanderTarget = Vector3.ZERO
 	else:
 		_setup_follower()
 	
@@ -42,10 +42,10 @@ func _setup_follower():
 	if jitterWanderEnabled:
 		wanderTarget = random_point_in_unit_sphere() * radius
 
+# Movement
 func _physics_process(delta: float) -> void:
 	if leader:
 		_leader_movement()
-		print("Target ", seekTarget)
 	else:
 		_followerMovement()
 		
@@ -65,10 +65,12 @@ func _followerMovement():
 		if not _is_dying:
 			seekEnabled = false
 			jitterWanderEnabled = true
-	
+
+# Setters
 func set_colour(colour: Color, full: bool):
 	spaceship.set_colour(colour, full)
 
+# Signals
 func _on_grabpoint_grabbing(value: bool) -> void:
 	selected = value
 	
@@ -77,3 +79,6 @@ func _on_grabpoint_grabbing(value: bool) -> void:
 		max_speed = base_max_speed * 2
 	else:
 		max_speed = base_max_speed
+
+	
+	

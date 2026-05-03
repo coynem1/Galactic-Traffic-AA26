@@ -14,7 +14,7 @@ enum FormationType {DIAMOND, LINE, V_SHAPE}
 @export var wander_jitter: float = 0.4
 @export var formation_scale: float = 0.2
 
-var leader: CharacterBody3D
+var leader: Boid
 var formation_colour := Color.from_hsv(randf(), 1.0, 1.0)	# Random Hue
 var dying: bool = false
 var dying_timer: float = 0.0
@@ -22,12 +22,30 @@ var dying_timer: float = 0.0
 
 signal formation_destroyed
 
+# Initialises everything
 func setup(type: FormationType, spawn_pos: Vector3) -> void:
 	formation_type = type
 	global_position = spawn_pos
 	spawn_leader()
 	spawn_followers()
+
+# HACK: Handles dying		
+func _process(delta: float) -> void:
+	# Also start dying if leader was destroyed externally e.g by asteroid
+	if not dying and (leader == null or not is_instance_valid(leader)):
+		start_dying()
+	if dying:
+		dying_timer += delta
+		var all_dead = true
+		for child in get_children():
+			if is_instance_valid(child) and not child.is_queued_for_deletion():
+				all_dead = false
+				break
+		if all_dead or dying_timer >= dying_timeout:
+			formation_destroyed.emit()
+			queue_free()
 		
+# Spawning at the start			
 func spawn_leader() -> void:
 	leader = leader_scene.instantiate()
 	add_child(leader)
@@ -44,23 +62,6 @@ func spawn_leader() -> void:
 	
 	leader.set_colour(formation_colour, true)
 	leader.init()
-	
-func _on_leader_hit(body: Node) -> void:
-	if body is StaticBody3D and not dying:
-		start_dying()
-		
-func start_dying() -> void:
-	if dying:
-		return
-	dying = true
-	
-	for child in get_children():
-		if child is CharacterBody3D:
-			child.seekEnabled = false
-			child.jitterWanderEnabled = true
-	if is_instance_valid(leader):
-		leader.queue_free()
-		leader = null
 
 func spawn_followers() -> void:
 	var offsets := get_offsets()
@@ -83,8 +84,25 @@ func spawn_followers() -> void:
 		# Get the followers area 3d
 		area.body_entered.connect(_on_follower_hit.bind(follower))
 	
+# Dying
+func start_dying() -> void:
+	if dying:
+		return
+	dying = true
+	
+	for child in get_children():
+		if child is CharacterBody3D:
+			child.seekEnabled = false
+			child.jitterWanderEnabled = true
+	if is_instance_valid(leader):
+		leader.queue_free()
+		leader = null
 
-func _on_follower_hit(body: Node, follower: CharacterBody3D) -> void:
+func _on_leader_hit(body: Node) -> void:
+	if body is StaticBody3D and not dying:
+		start_dying()
+		
+func _on_follower_hit(body: Node, follower: Boid) -> void:
 	if body is StaticBody3D:
 		if is_instance_valid(follower):
 			follower.queue_free()
@@ -119,18 +137,10 @@ func get_offsets() -> Array:
 	# Apply rotation and scale formation	
 	return raw.map(func(v): return rotation_basis * (v * formation_scale))	
 	
-func _process(delta: float) -> void:
-	# Also start dying if leader was destroyed externally e.g by asteroid
-	if not dying and (leader == null or not is_instance_valid(leader)):
+func add_portal(portal: Node):
+	portal.connect("body_teleported", _on_teleported)
+
+func _on_teleported(body: Boid):
+	if body == leader:
 		start_dying()
-	if dying:
-		dying_timer += delta
-		var all_dead = true
-		for child in get_children():
-			if is_instance_valid(child) and not child.is_queued_for_deletion():
-				all_dead = false
-				break
-		if all_dead or dying_timer >= dying_timeout:
-			formation_destroyed.emit()
-			queue_free()
 		

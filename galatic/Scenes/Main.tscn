@@ -60,7 +60,7 @@ formation_scene = ExtResource("8_50glp")
 leader_scene = ExtResource("1_idj7w")
 follower_scene = ExtResource("1_idj7w")
 spawn_interval = 1.625
-max_formations = 1
+max_formations = 2
 spawn_radius = 10.0
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
