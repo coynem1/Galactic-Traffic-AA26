@@ -1,11 +1,37 @@
 [gd_scene format=3 uid="uid://dfa0hkrxusqts"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_bty8e"]
+[ext_resource type="Shader" uid="uid://du71dfpukn105" path="res://Models/Shaders/wormhole.gdshader" id="1_s1bdh"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1bdh"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_s1bdh"]
+size = Vector2(5, 5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lqgt"]
+render_priority = 0
+shader = ExtResource("1_s1bdh")
+shader_parameter/color_one = Color(0, 0, 0, 0)
+shader_parameter/color_two = Color(0.12628987, 0.8070602, 0.99999994, 1)
+shader_parameter/color_falloff = 1.66000007559012
+shader_parameter/transparency_falloff = 0.19300000590762
+shader_parameter/depth_amount = 0.455
+shader_parameter/layers = 12
+shader_parameter/radius = 0.4
+shader_parameter/radius_reduction = 0.1
+shader_parameter/radius_reduction_type = 0
+shader_parameter/vary_radius = true
+shader_parameter/radius_variation = 0.1
+shader_parameter/radius_speed_variation = 1.0
+shader_parameter/radius_variation_offset = 1.0
+shader_parameter/radius_random_offset = true
+shader_parameter/center = Vector2(0.5, 0.5)
+shader_parameter/pixel_size = 10.0
+shader_parameter/resolution = Vector2(512, 512)
+shader_parameter/dither_offset = Vector2(2, 0)
+shader_parameter/bayer_size = 2
+shader_parameter/interpolate = true
+shader_parameter/falloff = 2.5
 
 [node name="Wormhole" type="Node3D" unique_id=1780791626]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=319946845]
-mesh = SubResource("SphereMesh_bty8e")
-surface_material_override/0 = SubResource("StandardMaterial3D_s1bdh")
+mesh = SubResource("PlaneMesh_s1bdh")
+surface_material_override/0 = SubResource("ShaderMaterial_7lqgt")
