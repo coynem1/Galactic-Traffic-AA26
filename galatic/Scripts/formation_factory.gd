@@ -17,12 +17,15 @@ extends Node3D
 var timer: float = 0.0
 var active_formations: int = 0
 
+# Spawns ships in intervals
 func _process(delta: float) -> void:
 	timer += delta
-	if timer >= spawn_interval:
-		timer = 0.0
-		if get_child_count() < max_formations:
-			spawn_formation()
+	if timer < spawn_interval:
+		return
+	timer = 0.0
+	
+	if get_child_count() < max_formations:
+		spawn_formation()
 
 func spawn_formation() -> void:
 	var formation = formation_scene.instantiate()
