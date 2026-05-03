@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dfa0hkrxusqts"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_bty8e"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s1bdh"]
+
+[node name="Wormhole" type="Node3D" unique_id=1780791626]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=319946845]
+mesh = SubResource("SphereMesh_bty8e")
+surface_material_override/0 = SubResource("StandardMaterial3D_s1bdh")

@@ -25,7 +25,6 @@ func _ready():
 # Set during runtime for defaults
 func init():
 	base_max_speed = max_speed
-	distance = 1
 	
 	if leader:
 		wanderTarget = Vector3.ZERO
