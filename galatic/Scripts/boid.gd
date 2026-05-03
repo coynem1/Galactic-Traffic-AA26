@@ -1,3 +1,4 @@
+class_name Boid
 extends CharacterBody3D
 
 @export var mass: float = 1.0
@@ -103,15 +104,9 @@ func pursue():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():	
-	randomize()
 	call_deferred("_find_leader")
 	var screen_size = DisplayServer.screen_get_size()
 	var window_size = get_window().get_size()
-	10
-	#print("leaderBoid: ", leaderBoid)
-	#print("my position: ", global_position)
-	#print("offsetPursueEnabled: ", offsetPursueEnabled)
-	# OS.set_window_position(screen_size*0.5 - window_size*0.5)
 
 	if targetNodePath:	
 		targetNode = get_node(targetNodePath)

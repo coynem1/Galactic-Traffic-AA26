@@ -69,7 +69,6 @@ slowingDistance = 35
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016, 0, 0.163)
 
 [node name="PlayerShip" parent="Assets" unique_id=218459643 instance=ExtResource("1_kln2b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.470618, 0, -3.2355561)
 axis_lock_linear_y = true
 
 [editable path="Assets/Ship"]

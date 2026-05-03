@@ -1,4 +1,4 @@
-extends "res://Scripts/boid.gd"
+extends Boid
 
 '''
 This represents the ship for either a leader or follower
@@ -19,16 +19,32 @@ func _ready():
 	super._ready()
 	seekEnabled = true
 	
-	if leader:
-		offsetPursueEnabled = true
+	#if leader:
+		#offsetPursueEnabled = true
 
 # Set during runtime for defaults
 func init():
 	base_max_speed = max_speed
+	distance = 1
+	
+	if leader:
+		wanderTarget = Vector3.ZERO
+	else:
+		_setup_follower()
+	
+func _setup_follower():
+	if leaderBoid != null:	# Already assigned
+		return
+	if offsetPursueEnabled and leaderNodePath:
+		leaderBoid = get_node_or_null(leaderNodePath)
+
+	if jitterWanderEnabled:
+		wanderTarget = random_point_in_unit_sphere() * radius
 
 func _physics_process(delta: float) -> void:
 	if leader:
 		_leader_movement()
+		print("Target ", seekTarget)
 	else:
 		_followerMovement()
 		
@@ -55,6 +71,7 @@ func set_colour(colour: Color, full: bool):
 func _on_grabpoint_grabbing(value: bool) -> void:
 	selected = value
 	
+	# Speed up when selected	
 	if selected:
 		max_speed = base_max_speed * 2
 	else:
