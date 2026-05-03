@@ -82,6 +82,7 @@ func spawn_leader() -> void:
 	leader.set_colour(formation_colour, true)
 	leader.init()
 
+
 func spawn_followers() -> void:
 	var offsets := get_offsets()
 	var desaturated_colour = Color.from_hsv(formation_colour.h, formation_colour.h, 0.3)
@@ -97,7 +98,9 @@ func spawn_followers() -> void:
 		follower.leaderBoid = leader
 		follower.offsetPursueEnabled = false
 		follower.seekEnabled = true
-		follower.max_speed = max_speed
+		follower.max_speed = max_speed * 1.5
+		follower.slowingDistance = 0.1
+		follower.leaderOffset = offsets[i]
 		
 		follower.set_colour(desaturated_colour, false)
 		follower.connect("teleported", on_teleport_ship)

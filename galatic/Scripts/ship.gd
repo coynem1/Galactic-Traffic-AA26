@@ -17,6 +17,7 @@ var leader: bool = false:
 	set(value):
 		leader = value
 		grabpoint.enabled(value)
+var is_grabbed: bool = false
 
 func _ready():
 	super._ready()
@@ -62,6 +63,10 @@ func _leader_movement():
 func _follower_movement():
 	if leaderBoid != null and is_instance_valid(leaderBoid):
 		seekTarget = leaderBoid.global_transform.origin + leaderBoid.transform.basis * leaderOffset
+	if is_grabbed:
+		seekTarget = MouseUtil.get_mouse_world_position(global_position)
+	elif leaderBoid != null and is_instance_valid(leaderBoid):
+		seekTarget = leaderBoid.global_transform.origin + leaderOffset
 	else:
 		# Leader is dead so wander
 		if not _is_dying:
@@ -84,6 +89,3 @@ func _on_grabpoint_grabbing(value: bool) -> void:
 		max_speed = base_max_speed * 2
 	else:
 		max_speed = base_max_speed
-
-	
-	

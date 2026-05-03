@@ -123,7 +123,7 @@ func _ready():
 		wanderTarget = random_point_in_unit_sphere() * radius	
 
 func seek(target: Vector3):	
-	var toTarget = target - transform.origin
+	var toTarget = target - global_transform.origin
 	toTarget = toTarget.normalized()
 	if toTarget.length() < 0.001:  
 		return Vector3.ZERO
@@ -142,7 +142,7 @@ func controllerSteering():
 	return force	
 	
 func arrive(target:Vector3):
-	var toTarget = target - transform.origin
+	var toTarget = target - global_transform.origin
 	var dist = toTarget.length()
 	if dist < 0.001:  # ADD THIS GUARD
 		return Vector3.ZERO
