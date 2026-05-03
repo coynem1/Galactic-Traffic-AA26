@@ -108,4 +108,5 @@ func _on_visible_on_screen_destroy_object() -> void:
 
 # Just appeared on screen
 func _on_visible_on_screen_spawn_invinciblity(value: bool) -> void:
+	print("invincible", value)
 	invincible = value
