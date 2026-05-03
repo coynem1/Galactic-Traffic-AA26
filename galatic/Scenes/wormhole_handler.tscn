@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c7bo6r6j28f33"]
+
+[ext_resource type="Script" uid="uid://bvr3ml4hgxcta" path="res://Scripts/wormhole_handler.gd" id="1_fdu4y"]
+[ext_resource type="PackedScene" uid="uid://ba0u2ujy5cre8" path="res://Scenes/wormhole.tscn" id="2_bxhqr"]
+
+[node name="WormholeHandler" type="Node3D" unique_id=444149420]
+script = ExtResource("1_fdu4y")
+
+[node name="Wormhole" parent="." unique_id=1780791626 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.8981943)
+
+[node name="Wormhole2" parent="." unique_id=314526113 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.4201097)
+
+[node name="Wormhole3" parent="." unique_id=1054873386 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.7592263)
+
+[node name="Wormhole4" parent="." unique_id=388302889 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.189295)

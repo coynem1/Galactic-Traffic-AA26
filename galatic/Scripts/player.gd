@@ -10,7 +10,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if selected:
-		seekTarget = Util.get_mouse_world_position(global_position)
+		seekTarget = MouseUtil.get_mouse_world_position(global_position)
 	else:
 		seekTarget = global_position  # seek own position = no force applied
 		

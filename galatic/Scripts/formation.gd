@@ -15,12 +15,14 @@ enum FormationType {DIAMOND, LINE, V_SHAPE}
 @export var formation_scale: float = 0.2
 
 var leader: Boid
+var followerCount: int = 0
 var formation_colour := Color.from_hsv(randf(), 1.0, 1.0)	# Random Hue
 var dying: bool = false
 var dying_timer: float = 0.0
 @export var dying_timeout: float = 10.0  # tweak this based on your boundary size and speed
 
 signal formation_destroyed
+signal add_points(value: int)
 
 # Initialises everything
 func setup(type: FormationType, spawn_pos: Vector3) -> void:
@@ -42,8 +44,24 @@ func _process(delta: float) -> void:
 				all_dead = false
 				break
 		if all_dead or dying_timer >= dying_timeout:
-			formation_destroyed.emit()
-			queue_free()
+			destroy_all()
+
+# Ship teleporting through wormhole 
+func on_teleport_ship(ship: Ship) -> void:
+	if ship == leader:
+		add_points.emit(PointsUtil.LEADER_POINTS_VALUE + PointsUtil.FOLLOWER_POINTS_VALUE * followerCount)
+		destroy_all()
+	else:
+		add_points.emit(PointsUtil.FOLLOWER_POINTS_VALUE)
+		destroy_follower(ship)
+
+func destroy_all():
+	formation_destroyed.emit()
+	queue_free()
+	
+func destroy_follower(ship: Ship):
+	followerCount -= 1
+	ship.queue_free()
 		
 # Spawning at the start			
 func spawn_leader() -> void:
@@ -59,6 +77,8 @@ func spawn_leader() -> void:
 	
 	var area = leader.get_node("Area3D")
 	area.body_entered.connect(_on_leader_hit)
+	leader.connect("teleported", on_teleport_ship)
+	
 	leader.set_colour(formation_colour, true)
 	leader.init()
 
@@ -66,9 +86,10 @@ func spawn_leader() -> void:
 func spawn_followers() -> void:
 	var offsets := get_offsets()
 	var desaturated_colour = Color.from_hsv(formation_colour.h, formation_colour.h, 0.3)
+	followerCount = offsets.size()
 	
-	for i in range(offsets.size()):
-		var follower := follower_scene.instantiate()
+	for i in range(followerCount):
+		var follower = follower_scene.instantiate()
 		var area = follower.get_node("Area3D")
 		
 		add_child(follower)
@@ -82,6 +103,7 @@ func spawn_followers() -> void:
 		follower.leaderOffset = offsets[i]
 		
 		follower.set_colour(desaturated_colour, false)
+		follower.connect("teleported", on_teleport_ship)
 		
 		# Get the followers area 3d
 		area.body_entered.connect(_on_follower_hit.bind(follower))
@@ -107,7 +129,7 @@ func _on_leader_hit(body: Node) -> void:
 func _on_follower_hit(body: Node, follower: Boid) -> void:
 	if body is StaticBody3D:
 		if is_instance_valid(follower):
-			follower.queue_free()
+			destroy_follower(follower)
 			
 func get_offsets() -> Array:
 	var raw := []
@@ -139,10 +161,3 @@ func get_offsets() -> Array:
 	# Apply rotation and scale formation	
 	return raw.map(func(v): return rotation_basis * (v * formation_scale))	
 	
-func add_portal(portal: Node):
-	portal.connect("body_teleported", _on_teleported)
-
-func _on_teleported(body: Boid):
-	if body == leader:
-		start_dying()
-		

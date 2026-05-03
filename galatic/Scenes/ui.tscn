@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://bbm1lcafo7kr1"]
 
+[ext_resource type="Script" uid="uid://cyivf1p7fvu7i" path="res://Scripts/ui.gd" id="1_jxero"]
+
 [node name="UI" type="Control" unique_id=495450367]
 layout_mode = 3
 anchors_preset = 15
@@ -8,6 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_jxero")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1714644074]
 layout_mode = 0
@@ -20,7 +23,7 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 26
 text = "Points:"
 
-[node name="Label2" type="Label" parent="VBoxContainer" unique_id=722074452]
+[node name="pointsValue" type="Label" parent="VBoxContainer" unique_id=722074452]
 layout_mode = 2
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 26

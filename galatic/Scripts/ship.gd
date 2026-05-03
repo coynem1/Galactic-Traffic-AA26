@@ -1,14 +1,70 @@
-extends "res://Scripts/boid.gd"
+class_name Ship
+extends Boid
+
+'''
+This represents the ship for either a leader or follower
+'''
+
+signal teleported(value: Ship)
+
+@onready var spaceship: Node3D = $spaceship
+@onready var grabpoint: Node3D = $Grabpoint
+
 var _is_dying: bool = false
+var base_max_speed: float
+var selected: bool = false
+var leader: bool = false:
+	set(value):
+		leader = value
+		grabpoint.enabled(value)
 var is_grabbed: bool = false
 
 func _ready():
 	super._ready()
 	seekEnabled = true
+	
+	#if leader:
+		#offsetPursueEnabled = true
 
+# Set during runtime to get default variables
+func init():
+	base_max_speed = max_speed
+	
+	if leader:
+		pass
+		#wanderTarget = Vector3.ZERO
+	else:
+		_setup_follower()
+	
+func _setup_follower():
+	if leaderBoid != null:	# Already assigned
+		return
+	if offsetPursueEnabled and leaderNodePath:
+		leaderBoid = get_node_or_null(leaderNodePath)
+
+	if jitterWanderEnabled:
+		wanderTarget = random_point_in_unit_sphere() * radius
+
+# Movement
 func _physics_process(delta: float) -> void:
+	if leader:
+		_leader_movement()
+	else:
+		_follower_movement()
+		
+	super._physics_process(delta)
+
+func _leader_movement():
+	if selected:
+		seekTarget = MouseUtil.get_mouse_world_position(global_position)
+	else:
+		seekTarget = global_position  # seek own position = no force applied
+
+func _follower_movement():
+	if leaderBoid != null and is_instance_valid(leaderBoid):
+		seekTarget = leaderBoid.global_transform.origin + leaderBoid.transform.basis * leaderOffset
 	if is_grabbed:
-		seekTarget = _get_mouse_world_pos()
+		seekTarget = MouseUtil.get_mouse_world_position(global_position)
 	elif leaderBoid != null and is_instance_valid(leaderBoid):
 		seekTarget = leaderBoid.global_transform.origin + leaderOffset
 	else:
@@ -16,7 +72,20 @@ func _physics_process(delta: float) -> void:
 		if not _is_dying:
 			seekEnabled = false
 			jitterWanderEnabled = true
-	super._physics_process(delta)
 
-func _get_mouse_world_pos() -> Vector3:
-	return Util.get_mouse_world_position(global_position)
+# Setters
+func set_colour(colour: Color, full: bool):
+	spaceship.set_colour(colour, full)
+
+func teleport_ship():
+	teleported.emit(self)
+
+# Signals
+func _on_grabpoint_grabbing(value: bool) -> void:
+	selected = value
+	
+	# Speed up when selected	
+	if selected:
+		max_speed = base_max_speed * 2
+	else:
+		max_speed = base_max_speed
