@@ -5,6 +5,8 @@ extends Boid
 This represents the ship for either a leader or follower
 '''
 
+const BIG_NUMBER: float = 500
+
 signal teleported(value: Ship)
 signal destroy(value: Node)
 
@@ -12,6 +14,7 @@ signal destroy(value: Node)
 @onready var grabpoint: Node3D = $Grabpoint
 
 var _is_dying: bool = false
+var invincible: bool = false
 var base_max_speed: float
 var selected: bool = false
 var leader: bool = false:
@@ -19,21 +22,18 @@ var leader: bool = false:
 		leader = value
 		grabpoint.enabled(value)
 var is_grabbed: bool = false
+var touched: bool = false
 
 func _ready():
 	super._ready()
 	seekEnabled = true
-	
-	#if leader:
-		#offsetPursueEnabled = true
 
 # Set during runtime to get default variables
 func init():
 	base_max_speed = max_speed
 	
 	if leader:
-		pass
-		#wanderTarget = Vector3.ZERO
+		seekTarget = global_transform.origin + (-global_transform.basis.z * BIG_NUMBER)
 	else:
 		_setup_follower()
 	
@@ -55,13 +55,15 @@ func _physics_process(delta: float) -> void:
 		
 	super._physics_process(delta)
 
-func _leader_movement():
+func _leader_movement() -> void:
 	if selected:
 		seekTarget = MouseUtil.get_mouse_world_position(global_position)
-	else:
+		return
+	
+	if touched:
 		seekTarget = global_position  # seek own position = no force applied
 
-func _follower_movement():
+func _follower_movement() -> void:
 	if leaderBoid != null and is_instance_valid(leaderBoid):
 		seekTarget = leaderBoid.global_transform.origin + leaderBoid.transform.basis * leaderOffset
 	if is_grabbed:
@@ -75,7 +77,7 @@ func _follower_movement():
 			jitterWanderEnabled = true
 
 # Setters
-func set_colour(colour: Color, full: bool):
+func set_colour(colour: Color, full: bool) -> void:
 	spaceship.set_colour(colour, full)
 
 func teleport_ship():
@@ -85,6 +87,10 @@ func teleport_ship():
 func _on_grabpoint_grabbing(value: bool) -> void:
 	selected = value
 	
+	# First time
+	if not touched:
+		touched = value
+	
 	# Speed up when selected	
 	if selected:
 		max_speed = base_max_speed * 2
@@ -93,10 +99,13 @@ func _on_grabpoint_grabbing(value: bool) -> void:
 
 # Signal on impact
 func _on_area_3d_body_entered(body: Node) -> void:
-	if body is StaticBody3D:
+	if body is StaticBody3D and not invincible:
 		destroy.emit(self)
 
-
 func _on_visible_on_screen_destroy_object() -> void:
-	print("invisible")
-	destroy.emit(self)
+	if not invincible:
+		destroy.emit(self)
+
+# Just appeared on screen
+func _on_visible_on_screen_spawn_invinciblity(value: bool) -> void:
+	invincible = value

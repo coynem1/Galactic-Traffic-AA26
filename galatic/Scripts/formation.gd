@@ -127,7 +127,6 @@ func _on_destroy(ship: Node):
 			
 func get_offsets() -> Array:
 	var raw := []
-	var rotation_basis := Basis(Vector3.UP, leader.rotation.y)
 	
 	match formation_type:
 		FormationType.DIAMOND:
@@ -152,6 +151,6 @@ func get_offsets() -> Array:
 				Vector3(6,0,6),
 			]
 			
-	# Apply rotation and scale formation	
-	return raw.map(func(v): return rotation_basis * (v * formation_scale))	
+	# Apply scale formation	
+	return raw.map(func(v): return v * formation_scale)	
 	

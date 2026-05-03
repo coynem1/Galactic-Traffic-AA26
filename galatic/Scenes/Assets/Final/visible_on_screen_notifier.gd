@@ -5,10 +5,14 @@ Responsible for detecting if an object has left the screen to delete
 '''
 
 signal destroy_object
+signal spawn_invinciblity(value: bool)
 
-var invincible: bool = false 
 var on_screen: bool = false
 var appeared_on_screen: bool = false
+var invincible: bool = false:
+	set(value):
+		invincible = value
+		spawn_invinciblity.emit(value)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

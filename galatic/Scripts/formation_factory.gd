@@ -51,6 +51,7 @@ func spawn_formation() -> void:
 		0.0,
 		sin(angle) * spawn_radius
 	)
+	formation.rotation.y = angle
 	formation.setup(type, spawn_pos)
 	
 func _on_formation_destroyed() -> void:

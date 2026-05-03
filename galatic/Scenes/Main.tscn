@@ -61,7 +61,7 @@ leader_scene = ExtResource("1_idj7w")
 follower_scene = ExtResource("1_idj7w")
 spawn_interval = 1.625
 max_formations = 2
-spawn_radius = 10.0
+spawn_radius = 27.23
 
 [node name="WormholeHandler" parent="Spawners" unique_id=444149420 instance=ExtResource("7_4kpch")]
 spawn_x_width = 40.0
@@ -69,6 +69,7 @@ spawn_x_width = 40.0
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -1.9073486e-06, 17.188236, 2.2018204)
 fov = 90.0
+size = 80.862
 
 [node name="Assets" type="Node3D" parent="." unique_id=2110826050]
 
