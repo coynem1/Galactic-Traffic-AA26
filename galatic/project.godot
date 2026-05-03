@@ -17,7 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Util="*uid://dnwgsekwpr5l3"
+MouseUtil="*uid://dnwgsekwpr5l3"
+PointsUtil="*uid://byc6otix1feq0"
 
 [debug_draw_3d]
 
@@ -26,6 +27,10 @@ settings/addon_root_folder="res://addons/debug_draw_3d"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/script_splitter/plugin.cfg")
+
+[global_group]
+
+Wormholes="The objectives for the ships to go into"
 
 [physics]
 

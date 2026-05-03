@@ -14,6 +14,8 @@ extends Node3D
 @export var wander_jitter: float = 2.0
 @export var formation_scale: float = 1.0
 
+signal add_points(value: int)
+
 var timer: float = 0.0
 var active_formations: int = 0
 
@@ -32,6 +34,7 @@ func spawn_formation() -> void:
 	add_child(formation)
 	active_formations += 1
 	formation.formation_destroyed.connect(_on_formation_destroyed)
+	formation.connect("add_points", _on_formation_add_points)
 	
 	formation.leader_scene = leader_scene
 	formation.follower_scene = follower_scene
@@ -53,4 +56,5 @@ func spawn_formation() -> void:
 func _on_formation_destroyed() -> void:
 	active_formations -= 1
 	
-			
+func _on_formation_add_points(value: int):
+	add_points.emit(value)

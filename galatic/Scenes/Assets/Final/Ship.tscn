@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bnpep3wlb20g5"]
 
-[ext_resource type="Script" uid="uid://cbwur76tret7a" path="res://follower.gd" id="1_5tp56"]
+[ext_resource type="Script" uid="uid://cbwur76tret7a" path="res://Scripts/ship.gd" id="1_5tp56"]
 [ext_resource type="PackedScene" uid="uid://fq1rxku50h3k" path="res://Scenes/Assets/Inherited/SpaceCraft.tscn" id="2_4hgby"]
 [ext_resource type="Script" uid="uid://p4jyj2ug8udw" path="res://Scripts/trail_renderer.gd" id="3_eqx34"]
 [ext_resource type="PackedScene" uid="uid://d3s7ohatbecds" path="res://Scenes/Components/grabpoint.tscn" id="4_n6b8c"]
