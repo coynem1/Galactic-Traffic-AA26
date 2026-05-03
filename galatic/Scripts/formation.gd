@@ -75,9 +75,8 @@ func spawn_leader() -> void:
 	leader.radius = wander_radius      
 	leader.jitter = wander_jitter
 	
-	var area = leader.get_node("Area3D")
-	area.body_entered.connect(_on_leader_hit)
 	leader.connect("teleported", on_teleport_ship)
+	leader.connect("destroy", _on_destroy)
 	
 	leader.set_colour(formation_colour, true)
 	leader.init()
@@ -90,7 +89,6 @@ func spawn_followers() -> void:
 	
 	for i in range(followerCount):
 		var follower = follower_scene.instantiate()
-		var area = follower.get_node("Area3D")
 		
 		add_child(follower)
 		
@@ -104,9 +102,7 @@ func spawn_followers() -> void:
 		
 		follower.set_colour(desaturated_colour, false)
 		follower.connect("teleported", on_teleport_ship)
-		
-		# Get the followers area 3d
-		area.body_entered.connect(_on_follower_hit.bind(follower))
+		follower.connect("destroy", _on_destroy)
 	
 # Dying
 func start_dying() -> void:
@@ -122,14 +118,12 @@ func start_dying() -> void:
 		leader.queue_free()
 		leader = null
 
-func _on_leader_hit(body: Node) -> void:
-	if body is StaticBody3D and not dying:
-		start_dying()
-		
-func _on_follower_hit(body: Node, follower: Boid) -> void:
-	if body is StaticBody3D:
-		if is_instance_valid(follower):
-			destroy_follower(follower)
+func _on_destroy(ship: Node):
+	if ship == leader:
+		if not dying:
+			start_dying()
+	else:
+		destroy_follower(ship)
 			
 func get_offsets() -> Array:
 	var raw := []
@@ -138,10 +132,10 @@ func get_offsets() -> Array:
 	match formation_type:
 		FormationType.DIAMOND:
 			raw = [
-				Vector3(-3,0,0),
-				Vector3(3,0,0),
-				Vector3(0,0,3),
-				Vector3(0,0,-3),
+				Vector3(-4,0,0),
+				Vector3(4,0,0),
+				Vector3(0,0,4),
+				Vector3(0,0,-4),
 			]
 		FormationType.LINE:
 			raw = [

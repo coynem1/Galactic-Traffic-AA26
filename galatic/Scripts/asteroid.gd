@@ -11,9 +11,15 @@ func _ready() -> void:
 func _on_area_hit(body: Node) -> void:
 	if body is CharacterBody3D:
 		body.queue_free()
-		# Do something to the asteroid here. RN i delete it
-		queue_free()
+		_destroy()
+
+func _destroy():
+	# Do something to the asteroid here. RN i delete it
+	queue_free()
 
 # When a collision happens 
 func _on_body_entered(body: Node) -> void:
-	queue_free()
+	_destroy()
+
+func _on_visible_on_screen_destroy_object() -> void:
+	_destroy()

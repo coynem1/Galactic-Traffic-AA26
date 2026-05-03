@@ -6,6 +6,7 @@ This represents the ship for either a leader or follower
 '''
 
 signal teleported(value: Ship)
+signal destroy(value: Node)
 
 @onready var spaceship: Node3D = $spaceship
 @onready var grabpoint: Node3D = $Grabpoint
@@ -89,3 +90,13 @@ func _on_grabpoint_grabbing(value: bool) -> void:
 		max_speed = base_max_speed * 2
 	else:
 		max_speed = base_max_speed
+
+# Signal on impact
+func _on_area_3d_body_entered(body: Node) -> void:
+	if body is StaticBody3D:
+		destroy.emit(self)
+
+
+func _on_visible_on_screen_destroy_object() -> void:
+	print("invisible")
+	destroy.emit(self)
