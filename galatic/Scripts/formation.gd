@@ -59,9 +59,9 @@ func spawn_leader() -> void:
 	
 	var area = leader.get_node("Area3D")
 	area.body_entered.connect(_on_leader_hit)
-	
 	leader.set_colour(formation_colour, true)
 	leader.init()
+
 
 func spawn_followers() -> void:
 	var offsets := get_offsets()
@@ -77,7 +77,9 @@ func spawn_followers() -> void:
 		follower.leaderBoid = leader
 		follower.offsetPursueEnabled = false
 		follower.seekEnabled = true
-		follower.max_speed = max_speed
+		follower.max_speed = max_speed * 1.5
+		follower.slowingDistance = 0.1
+		follower.leaderOffset = offsets[i]
 		
 		follower.set_colour(desaturated_colour, false)
 		
