@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bbm1lcafo7kr1"]
 
 [ext_resource type="Script" uid="uid://cyivf1p7fvu7i" path="res://Scripts/ui.gd" id="1_jxero"]
+[ext_resource type="PackedScene" uid="uid://dbq10mwuv50ve" path="res://Scenes/dialog.tscn" id="2_qdvrb"]
 
 [node name="UI" type="Control" unique_id=495450367]
 layout_mode = 3
@@ -29,3 +30,6 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 26
 text = "0"
 horizontal_alignment = 1
+
+[node name="Node2D" parent="." unique_id=1304187129 instance=ExtResource("2_qdvrb")]
+layout_mode = 1

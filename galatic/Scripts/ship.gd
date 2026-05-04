@@ -80,11 +80,14 @@ func _follower_movement() -> void:
 func set_colour(colour: Color, full: bool) -> void:
 	spaceship.set_colour(colour, full)
 
+
 func teleport_ship():
 	teleported.emit(self)
 
 # Signals
 func _on_grabpoint_grabbing(value: bool) -> void:
+	if not leader:
+		return
 	selected = value
 	
 	# First time
@@ -93,7 +96,7 @@ func _on_grabpoint_grabbing(value: bool) -> void:
 	
 	# Speed up when selected	
 	if selected:
-		max_speed = base_max_speed * 2
+		max_speed = base_max_speed * 1.5
 	else:
 		max_speed = base_max_speed
 
