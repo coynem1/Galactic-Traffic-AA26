@@ -8,23 +8,25 @@
 [ext_resource type="PackedScene" uid="uid://doism0itxll2v" path="res://Scenes/Assets/Final/Asteroid.tscn" id="6_v1gob"]
 [ext_resource type="PackedScene" uid="uid://c7bo6r6j28f33" path="res://Scenes/wormhole_handler.tscn" id="7_4kpch"]
 [ext_resource type="Script" uid="uid://85c3nydto6bg" path="res://Scripts/formation_factory.gd" id="7_jw32o"]
+[ext_resource type="PackedScene" uid="uid://bqfsnblqx1fki" path="res://Scenes/coin_spawner.tscn" id="8_4kpch"]
 [ext_resource type="PackedScene" uid="uid://07is0342ab4m" path="res://Scenes/formation.tscn" id="8_50glp"]
 [ext_resource type="PackedScene" uid="uid://bbm1lcafo7kr1" path="res://Scenes/ui.tscn" id="10_bmxlf"]
+[ext_resource type="AudioStream" uid="uid://t3n4kl77n8jn" path="res://Audio/JTBKnuggetsauce - Pulverize.mp3" id="11_grg3l"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_50glp"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kpch"]
 shader = ExtResource("1_50glp")
-shader_parameter/sun_color = Color(5.771, 3.9335935, 1.8761628, 1)
-shader_parameter/sun_size = 0.00999999977648
-shader_parameter/sun_blur = 20.0
-shader_parameter/star_density = 0.45400002086647995
-shader_parameter/star_brightness = 1.4310000647126202
+shader_parameter/sun_color = Color(10, 10, 10, 1)
+shader_parameter/sun_size = 0.05
+shader_parameter/sun_blur = 0.01
+shader_parameter/star_density = 0.5
+shader_parameter/star_brightness = 1.2
 
-[sub_resource type="Sky" id="Sky_vy5pj"]
-sky_material = SubResource("ShaderMaterial_50glp")
+[sub_resource type="Sky" id="Sky_frkhe"]
+sky_material = SubResource("ShaderMaterial_4kpch")
 
 [sub_resource type="Environment" id="Environment_r150o"]
 background_mode = 2
-sky = SubResource("Sky_vy5pj")
+sky = SubResource("Sky_frkhe")
 ambient_light_source = 3
 ambient_light_sky_contribution = 0.0
 
@@ -61,19 +63,26 @@ leader_scene = ExtResource("1_idj7w")
 follower_scene = ExtResource("1_idj7w")
 spawn_interval = 1.625
 max_formations = 2
-spawn_radius = 10.0
+spawn_radius = 27.23
 
 [node name="WormholeHandler" parent="Spawners" unique_id=444149420 instance=ExtResource("7_4kpch")]
 spawn_x_width = 40.0
 
+[node name="CoinSpawner" parent="Spawners" unique_id=778108674 instance=ExtResource("8_4kpch")]
+max_coins = 3
+spawn_interval = 7.1
+spawn_width = 43.8
+spawn_length = 30.1
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -1.9073486e-06, 17.188236, 2.2018204)
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 20.987, 0)
 fov = 90.0
+size = 35.92215
 
 [node name="Assets" type="Node3D" parent="." unique_id=2110826050]
 
 [node name="Container" parent="Assets" unique_id=1696708418 instance=ExtResource("4_rgh2o")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.42668915, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Assets" unique_id=370714862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
@@ -89,9 +98,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016, 0, 0.163)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.470618, 0, -3.2355561)
 axis_lock_linear_y = true
 
+[node name="Sounds" type="Node3D" parent="." unique_id=832491980]
+
+[node name="Theme" type="AudioStreamPlayer" parent="Sounds" unique_id=842527999]
+stream = ExtResource("11_grg3l")
+volume_db = -7.241
+autoplay = true
+parameters/looping = true
+
 [node name="UI" parent="." unique_id=495450367 instance=ExtResource("10_bmxlf")]
 
 [connection signal="add_points" from="Spawners/Formation_Spawner" to="UI" method="_on_formation_spawner_add_points"]
+[connection signal="collected_coin" from="Spawners/CoinSpawner" to="UI" method="_on_coin_spawner_collected_coin"]
 
 [editable path="Assets/Ship"]
 [editable path="Assets/PlayerShip"]

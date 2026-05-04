@@ -28,6 +28,16 @@ settings/addon_root_folder="res://addons/debug_draw_3d"
 
 enabled=PackedStringArray("res://addons/script_splitter/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://Audio/": "pink",
+"res://Models/": "orange",
+"res://Scenes/": "teal",
+"res://Scripts/": "blue",
+"res://addons/": "gray"
+}
+
 [global_group]
 
 Wormholes="The objectives for the ships to go into"

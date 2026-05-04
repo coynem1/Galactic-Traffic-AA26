@@ -123,10 +123,23 @@ func _ready():
 		wanderTarget = random_point_in_unit_sphere() * radius	
 
 func seek(target: Vector3):	
-	var toTarget = target - global_transform.origin
-	toTarget = toTarget.normalized()
-	if toTarget.length() < 0.001:  
+	#var toTarget = target - global_transform.origin
+	#toTarget = toTarget.normalized()
+	#if toTarget.length() < 0.001:  
+	#	return Vector3.ZERO
+	#var desired = toTarget * max_speed
+	#return desired - velocity
+	
+	var toTarget = (target - global_transform.origin)
+	var dist = toTarget.length()
+	if dist < 0.001:  
 		return Vector3.ZERO
+
+	var desired_speed = max_speed
+	if dist < slowingDistance:
+		desired_speed = max_speed * (dist / slowingDistance)
+
+	#var desired = (toTarget / dist) * desired_speed
 	var desired = toTarget * max_speed
 	return desired - velocity
 

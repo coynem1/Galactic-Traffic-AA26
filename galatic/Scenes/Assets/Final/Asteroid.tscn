@@ -1,13 +1,29 @@
 [gd_scene format=3 uid="uid://doism0itxll2v"]
 
 [ext_resource type="Script" uid="uid://cwucjca05uwuq" path="res://Scripts/asteroid.gd" id="1_dvhjx"]
+[ext_resource type="PackedScene" uid="uid://60lg0wupayp6" path="res://Scenes/Components/visible_on_screen.tscn" id="2_vtgkh"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_n3a56"]
 radius = 0.25
 height = 0.5
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_dvhjx"]
+frequency = 0.037
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vtgkh"]
+width = 100
+height = 100
+noise = SubResource("FastNoiseLite_dvhjx")
+seamless = true
+as_normal_map = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x4ilk"]
+albedo_color = Color(0.61745477, 0.61745477, 0.6174547, 1)
+normal_enabled = true
+normal_texture = SubResource("NoiseTexture2D_vtgkh")
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_n3a56"]
-radius = 0.25
+radius = 0.438
 
 [node name="Asteroid" type="RigidBody3D" unique_id=773832098]
 collision_layer = 4
@@ -21,7 +37,9 @@ linear_damp_mode = 1
 script = ExtResource("1_dvhjx")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1541307629]
+transform = Transform3D(1.75, 0, 0, 0, 1.75, 0, 0, 0, 1.75, 0, 0, 0)
 mesh = SubResource("SphereMesh_n3a56")
+surface_material_override/0 = SubResource("StandardMaterial3D_x4ilk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2044431860]
 shape = SubResource("SphereShape3D_n3a56")
@@ -31,3 +49,9 @@ collision_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1140880913]
 shape = SubResource("SphereShape3D_n3a56")
+
+[node name="VisibleOnScreen" parent="." unique_id=1248518696 instance=ExtResource("2_vtgkh")]
+aabb = AABB(-0.62535596, -0.7446355, -0.57051396, 1.2507119, 1.489271, 1.2338014)
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_hit"]
+[connection signal="destroy_object" from="VisibleOnScreen" to="." method="_on_visible_on_screen_destroy_object"]

@@ -47,10 +47,11 @@ func spawn_formation() -> void:
 	var type = randi() % 3
 	var angle = randf_range(0, TAU)
 	var spawn_pos = Vector3(
-		cos(angle) * spawn_radius,
+		sin(angle) * -spawn_radius,
 		0.0,
-		sin(angle) * spawn_radius
+		cos(angle) * -spawn_radius
 	)
+	formation.rotation.y = angle + PI
 	formation.setup(type, spawn_pos)
 	
 func _on_formation_destroyed() -> void:

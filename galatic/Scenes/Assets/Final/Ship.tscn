@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://fq1rxku50h3k" path="res://Scenes/Assets/Inherited/SpaceCraft.tscn" id="2_4hgby"]
 [ext_resource type="Script" uid="uid://p4jyj2ug8udw" path="res://Scripts/trail_renderer.gd" id="3_eqx34"]
 [ext_resource type="PackedScene" uid="uid://d3s7ohatbecds" path="res://Scenes/Components/grabpoint.tscn" id="4_n6b8c"]
+[ext_resource type="PackedScene" uid="uid://60lg0wupayp6" path="res://Scenes/Components/visible_on_screen.tscn" id="5_u8d6w"]
 
 [sub_resource type="Curve" id="Curve_s8gdw"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -16,9 +17,50 @@ albedo_color = Color(1, 0.960784, 0, 1)
 height = 0.8
 radius = 1.1
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8d6w"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.20152828, 0.85956496, 0.99999994, 1)
+
+[sub_resource type="Curve" id="Curve_ulwrf"]
+_data = [Vector2(0.2542373, 0.15730345), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_747dt"]
+_limits = [0.0, 1.7977533, 0.0, 1.0]
+_data = [Vector2(0, 1.3483148), 0.0, 0.0, 0, 0, Vector2(0.38135594, 1.7977533), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_mqhuf"]
+_data = [Vector2(0, 0.5393259), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_p3r7q"]
+curve_x = SubResource("Curve_ulwrf")
+curve_y = SubResource("Curve_747dt")
+curve_z = SubResource("Curve_mqhuf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uvaiq"]
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 0.33
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 19.25
+initial_velocity_max = 55.05
+scale_min = 0.0
+scale_max = 1.1
+scale_curve = SubResource("CurveXYZTexture_p3r7q")
+
+[sub_resource type="QuadMesh" id="QuadMesh_mw8wg"]
+
 [node name="Ship" type="CharacterBody3D" unique_id=1759432117]
 axis_lock_linear_y = true
 script = ExtResource("1_5tp56")
+banking = 0.3
+jitter = 1.755
 
 [node name="spaceship" parent="." unique_id=1114048911 instance=ExtResource("2_4hgby")]
 
@@ -40,14 +82,31 @@ material = SubResource("StandardMaterial3D_272tm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016370773, 0.40472263, 0.01118356)
 shape = SubResource("CylinderShape3D_5tp56")
 
-[node name="Area3D" type="Area3D" parent="." unique_id=2004681837]
+[node name="Hitbox" type="Area3D" parent="." unique_id=2004681837]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1472665632]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox" unique_id=1472665632]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016370773, 0.40472263, 0.01118356)
 shape = SubResource("CylinderShape3D_5tp56")
 
 [node name="Grabpoint" parent="." unique_id=548051434 instance=ExtResource("4_n6b8c")]
 
+[node name="VisibleOnScreen" parent="." unique_id=1248518696 instance=ExtResource("5_u8d6w")]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=1888824862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027314663, 0.036022425, 0)
+material_override = SubResource("StandardMaterial3D_u8d6w")
+cast_shadow = 0
+emitting = false
+amount = 20
+lifetime = 0.59
+explosiveness = 1.0
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_uvaiq")
+draw_pass_1 = SubResource("QuadMesh_mw8wg")
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_area_3d_body_entered"]
 [connection signal="grabbing" from="Grabpoint" to="." method="_on_grabpoint_grabbing"]
+[connection signal="destroy_object" from="VisibleOnScreen" to="." method="_on_visible_on_screen_destroy_object"]
+[connection signal="spawn_invinciblity" from="VisibleOnScreen" to="." method="_on_visible_on_screen_spawn_invinciblity"]

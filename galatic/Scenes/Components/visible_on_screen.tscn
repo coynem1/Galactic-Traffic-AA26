@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://60lg0wupayp6"]
+
+[ext_resource type="Script" uid="uid://cddx3c04sy4kh" path="res://Scenes/Assets/Final/visible_on_screen_notifier.gd" id="1_ooumq"]
+
+[node name="VisibleOnScreen" type="VisibleOnScreenNotifier3D" unique_id=1248518696]
+aabb = AABB(-1, -1, -1, 2, 2, 2.255)
+script = ExtResource("1_ooumq")
+
+[connection signal="screen_entered" from="." to="." method="_on_screen_entered"]
+[connection signal="screen_exited" from="." to="." method="_on_screen_exited"]

@@ -14,3 +14,7 @@ func _ready() -> void:
 
 func _on_formation_spawner_add_points(value: int) -> void:
 	points += value
+
+
+func _on_coin_spawner_collected_coin() -> void:
+	points += PointsUtil.COIN_POINTS_VALUE
