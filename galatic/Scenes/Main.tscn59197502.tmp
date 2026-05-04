@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://cje0dj4b2na8s"]
+
+[ext_resource type="Shader" uid="uid://c7mbsf7k73ik8" path="res://Models/Shaders/starrySky.gdshader" id="1_50glp"]
+[ext_resource type="PackedScene" uid="uid://bnpep3wlb20g5" path="res://Scenes/Assets/Final/Ship.tscn" id="1_idj7w"]
+[ext_resource type="PackedScene" uid="uid://82mno8ddhisg" path="res://Scenes/AsteroidExplosion.tscn" id="4_grg3l"]
+[ext_resource type="Script" uid="uid://cvvrs6nqj8xnn" path="res://Scripts/asteroid_spawner.gd" id="5_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://doism0itxll2v" path="res://Scenes/Assets/Final/Asteroid.tscn" id="6_v1gob"]
+[ext_resource type="PackedScene" uid="uid://c7bo6r6j28f33" path="res://Scenes/wormhole_handler.tscn" id="7_4kpch"]
+[ext_resource type="PackedScene" uid="uid://kt1k6mhj1mn4" path="res://Scenes/explosion.tscn" id="7_grg3l"]
+[ext_resource type="Script" uid="uid://85c3nydto6bg" path="res://Scripts/formation_factory.gd" id="7_jw32o"]
+[ext_resource type="PackedScene" uid="uid://bqfsnblqx1fki" path="res://Scenes/coin_spawner.tscn" id="8_4kpch"]
+[ext_resource type="PackedScene" uid="uid://07is0342ab4m" path="res://Scenes/formation.tscn" id="8_50glp"]
+[ext_resource type="PackedScene" uid="uid://bbm1lcafo7kr1" path="res://Scenes/ui.tscn" id="10_bmxlf"]
+[ext_resource type="AudioStream" uid="uid://t3n4kl77n8jn" path="res://Audio/Music/JTBKnuggetsauce - Pulverize.mp3" id="11_grg3l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4kpch"]
+shader = ExtResource("1_50glp")
+shader_parameter/sun_color = Color(9.097154, 9.183855, 0.00017236685, 1)
+shader_parameter/sun_size = 0.00999999977648
+shader_parameter/sun_blur = 20.0
+shader_parameter/star_density = 0.5
+shader_parameter/star_brightness = 0.85300003725762
+
+[sub_resource type="Sky" id="Sky_frkhe"]
+sky_material = SubResource("ShaderMaterial_4kpch")
+
+[sub_resource type="Environment" id="Environment_r150o"]
+background_mode = 2
+sky = SubResource("Sky_frkhe")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rgh2o"]
+size = Vector2(37.15, 26.06)
+
+[node name="Main" type="Node3D" unique_id=518567241]
+
+[node name="Lights" type="Node3D" parent="." unique_id=1573866561]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Lights" unique_id=1052567503]
+environment = SubResource("Environment_r150o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lights" unique_id=1187346673]
+transform = Transform3D(-0.9889034, 0.14354971, 0.038256973, 0.14469156, 0.87228274, 0.46710512, 0.03368191, 0.46745726, -0.8833738, -0.5210357, 11.6090145, -14.6182165)
+
+[node name="Spawners" type="Node3D" parent="." unique_id=1598773823]
+
+[node name="ShipSpawnerFactory" type="Node3D" parent="Spawners" unique_id=2034465316]
+
+[node name="Asteroid_Spawner" type="Node3D" parent="Spawners" unique_id=1130363931]
+transform = Transform3D(1.97, 0, 0, 0, 1.97, 0, 0, 0, 1.97, 0, 0, 0)
+script = ExtResource("5_pbw6q")
+asteroid_scene = ExtResource("6_v1gob")
+asteroid_explosion_scene = ExtResource("4_grg3l")
+spawn_interval = 2.0
+asteroid_speed = 2.0
+spawn_radius = 30.0
+destroy_radius = 31.0
+
+[node name="Formation_Spawner" type="Node3D" parent="Spawners" unique_id=596904330]
+script = ExtResource("7_jw32o")
+formation_scene = ExtResource("8_50glp")
+leader_scene = ExtResource("1_idj7w")
+follower_scene = ExtResource("1_idj7w")
+explosion_scene = ExtResource("7_grg3l")
+spawn_interval = 1.625
+max_formations = 2
+spawn_radius = 45.715
+
+[node name="WormholeHandler" parent="Spawners" unique_id=444149420 instance=ExtResource("7_4kpch")]
+spawn_x_width = 40.0
+
+[node name="CoinSpawner" parent="Spawners" unique_id=778108674 instance=ExtResource("8_4kpch")]
+max_coins = 3
+spawn_interval = 7.1
+spawn_width = 43.8
+spawn_length = 30.1
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 20.987, 0)
+fov = 90.0
+size = 35.92215
+
+[node name="Assets" type="Node3D" parent="." unique_id=2110826050]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Assets" unique_id=370714862]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("PlaneMesh_rgh2o")
+
+[node name="Sounds" type="Node3D" parent="." unique_id=832491980]
+
+[node name="Theme" type="AudioStreamPlayer" parent="Sounds" unique_id=842527999]
+stream = ExtResource("11_grg3l")
+volume_db = -7.241
+autoplay = true
+bus = &"Music"
+parameters/looping = true
+
+[node name="AudioListener3D" type="AudioListener3D" parent="Sounds" unique_id=335804189]
+current = true
+
+[node name="UI" parent="." unique_id=495450367 instance=ExtResource("10_bmxlf")]
+
+[connection signal="add_points" from="Spawners/Formation_Spawner" to="UI" method="_on_formation_spawner_add_points"]
+[connection signal="collected_coin" from="Spawners/CoinSpawner" to="UI" method="_on_coin_spawner_collected_coin"]
