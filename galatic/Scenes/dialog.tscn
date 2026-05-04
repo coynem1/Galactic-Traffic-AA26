@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dbq10mwuv50ve"]
+
+[ext_resource type="Script" uid="uid://xegnb1mik0h5" path="res://Scripts/dialog.gd" id="1_irs7l"]
+
+[node name="Node2D" type="Control" unique_id=1304187129]
+layout_mode = 3
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_irs7l")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1997570456]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1667573376]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer" unique_id=296022216]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=928109220]
+layout_mode = 2
+
+[node name="DialogText" type="RichTextLabel" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1077723768]
+layout_mode = 2
+size_flags_vertical = 3
+fit_content = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HBoxContainer" unique_id=386448863]
