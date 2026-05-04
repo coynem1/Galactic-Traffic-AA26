@@ -30,6 +30,8 @@ func _process(delta: float) -> void:
 	if get_child_count() < max_formations:
 		spawn_formation()
 
+signal dialog_event(type: String, info: String)
+
 func spawn_formation() -> void:
 	var formation = formation_scene.instantiate()
 	add_child(formation)
@@ -37,6 +39,11 @@ func spawn_formation() -> void:
 	formation.formation_destroyed.connect(_on_formation_destroyed)
 	formation.connect("add_points", _on_formation_add_points)
 	formation.connect("blow_up", _on_blow_up_ship)
+	
+	# Connect its dialog signal immediately after spawning
+	var dialog = get_tree().get_first_node_in_group("dialog")
+	if dialog:
+		dialog.register_source(formation)
 	
 	formation.leader_scene = leader_scene
 	formation.follower_scene = follower_scene
@@ -56,12 +63,33 @@ func spawn_formation() -> void:
 	formation.rotation.y = angle + PI
 	formation.setup(type, spawn_pos)
 	
+<<<<<<< HEAD
 func _on_blow_up_ship(pos: Vector3) -> void:
 	var boom := explosion_scene.instantiate()
 	add_child(boom)
 	boom.position = pos
 	boom.explosion()
 	
+=======
+	# Find quadrant to emit to dialog
+	var x = spawn_pos.x
+	var z = spawn_pos.z
+	var pos: String = ""
+	
+	if x > 0 and z < 0:
+		pos = "Top Right"
+	elif x > 0 and z > 0:
+		pos = "Bottom Right"
+	elif x < 0 and z < 0:
+		pos = "Top Left"
+	elif x < 0 and z > 0:
+		pos = "Bottom Left"
+	emit_signal("dialog_event", "formation_spawned", pos)
+
+func _ready():
+	add_to_group("dialog_sources")		
+
+>>>>>>> 9dc0280f3fdebf1478ba1916d4082fa553062bf7
 func _on_formation_destroyed() -> void:
 	active_formations -= 1
 	
