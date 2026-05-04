@@ -63,14 +63,12 @@ func spawn_formation() -> void:
 	formation.rotation.y = angle + PI
 	formation.setup(type, spawn_pos)
 	
-<<<<<<< HEAD
 func _on_blow_up_ship(pos: Vector3) -> void:
 	var boom := explosion_scene.instantiate()
 	add_child(boom)
 	boom.position = pos
 	boom.explosion()
 	
-=======
 	# Find quadrant to emit to dialog
 	var x = spawn_pos.x
 	var z = spawn_pos.z
@@ -89,7 +87,6 @@ func _on_blow_up_ship(pos: Vector3) -> void:
 func _ready():
 	add_to_group("dialog_sources")		
 
->>>>>>> 9dc0280f3fdebf1478ba1916d4082fa553062bf7
 func _on_formation_destroyed() -> void:
 	active_formations -= 1
 	

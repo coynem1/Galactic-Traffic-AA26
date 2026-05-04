@@ -23,11 +23,8 @@ var dying_timer: float = 0.0
 
 signal formation_destroyed
 signal add_points(value: int)
-<<<<<<< HEAD
 signal blow_up(pos: Vector3)
-=======
 signal dialog_event(type: String, info: String)
->>>>>>> 9dc0280f3fdebf1478ba1916d4082fa553062bf7
 
 # Initialises everything
 func setup(type: FormationType, spawn_pos: Vector3) -> void:
