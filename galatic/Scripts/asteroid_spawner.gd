@@ -1,6 +1,7 @@
 extends Node
 
 @export var asteroid_scene: PackedScene
+@export var asteroid_explosion_scene: PackedScene
 @export var spawn_interval: float = 5.0
 @export var asteroid_speed: float = 15.0
 @export var spawn_radius: float = 20.0
@@ -18,6 +19,7 @@ func _process(delta: float) -> void:
 func spawn_asteroid() -> void:
 	var asteroid = asteroid_scene.instantiate()
 	add_child(asteroid)
+	asteroid.connect("blow_up", _on_asteroid_blow_up)
 	
 	# Pick a rand point on circle perimeter
 	var angle = randf_range(0, TAU)
@@ -37,6 +39,13 @@ func spawn_asteroid() -> void:
 	)
 	var direction = (target - spawn_pos).normalized()
 	asteroid.linear_velocity = direction * asteroid_speed
+
+func _on_asteroid_blow_up(pos: Vector3) -> void:
+	var boom := asteroid_explosion_scene.instantiate()
+	add_child(boom)
+	boom.position = pos
+	boom.explosion()
+	
 	
 func _physics_process(delta: float) -> void:
 	# Check all the asteroids and destroy the ones too far away

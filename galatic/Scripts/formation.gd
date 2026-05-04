@@ -23,6 +23,7 @@ var dying_timer: float = 0.0
 
 signal formation_destroyed
 signal add_points(value: int)
+signal blow_up(pos: Vector3)
 
 # Initialises everything
 func setup(type: FormationType, spawn_pos: Vector3) -> void:
@@ -57,6 +58,11 @@ func on_teleport_ship(ship: Ship) -> void:
 
 func destroy_all():
 	formation_destroyed.emit()
+	
+	# Blow up
+	for child in get_children():
+		blow_up.emit(child.position)
+	
 	queue_free()
 	
 func destroy_follower(ship: Ship):
@@ -123,12 +129,17 @@ func start_dying() -> void:
 		leader.queue_free()
 		leader = null
 
+# Blow up ship
 func _on_destroy(ship: Node):
+	# Blow up
+	blow_up.emit(ship.global_position)
+	
 	if ship == leader:
 		if not dying:
 			start_dying()
 	else:
 		destroy_follower(ship)
+
 			
 func get_offsets() -> Array:
 	var raw := []

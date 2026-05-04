@@ -2,24 +2,24 @@
 
 [ext_resource type="Shader" uid="uid://c7mbsf7k73ik8" path="res://Models/Shaders/starrySky.gdshader" id="1_50glp"]
 [ext_resource type="PackedScene" uid="uid://bnpep3wlb20g5" path="res://Scenes/Assets/Final/Ship.tscn" id="1_idj7w"]
-[ext_resource type="PackedScene" uid="uid://dbc8i8dbxiph3" path="res://Scenes/Assets/Final/PlayerShip.tscn" id="1_kln2b"]
-[ext_resource type="PackedScene" uid="uid://b7cqk2iop8cbs" path="res://Scenes/Container.tscn" id="4_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://82mno8ddhisg" path="res://Scenes/AsteroidExplosion.tscn" id="4_grg3l"]
 [ext_resource type="Script" uid="uid://cvvrs6nqj8xnn" path="res://Scripts/asteroid_spawner.gd" id="5_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://doism0itxll2v" path="res://Scenes/Assets/Final/Asteroid.tscn" id="6_v1gob"]
 [ext_resource type="PackedScene" uid="uid://c7bo6r6j28f33" path="res://Scenes/wormhole_handler.tscn" id="7_4kpch"]
+[ext_resource type="PackedScene" uid="uid://kt1k6mhj1mn4" path="res://Scenes/explosion.tscn" id="7_grg3l"]
 [ext_resource type="Script" uid="uid://85c3nydto6bg" path="res://Scripts/formation_factory.gd" id="7_jw32o"]
 [ext_resource type="PackedScene" uid="uid://bqfsnblqx1fki" path="res://Scenes/coin_spawner.tscn" id="8_4kpch"]
 [ext_resource type="PackedScene" uid="uid://07is0342ab4m" path="res://Scenes/formation.tscn" id="8_50glp"]
 [ext_resource type="PackedScene" uid="uid://bbm1lcafo7kr1" path="res://Scenes/ui.tscn" id="10_bmxlf"]
-[ext_resource type="AudioStream" uid="uid://t3n4kl77n8jn" path="res://Audio/JTBKnuggetsauce - Pulverize.mp3" id="11_grg3l"]
+[ext_resource type="AudioStream" uid="uid://t3n4kl77n8jn" path="res://Audio/Music/JTBKnuggetsauce - Pulverize.mp3" id="11_grg3l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4kpch"]
 shader = ExtResource("1_50glp")
-shader_parameter/sun_color = Color(10, 10, 10, 1)
-shader_parameter/sun_size = 0.05
-shader_parameter/sun_blur = 0.01
+shader_parameter/sun_color = Color(9.097154, 9.183855, 0.00017236685, 1)
+shader_parameter/sun_size = 0.00999999977648
+shader_parameter/sun_blur = 20.0
 shader_parameter/star_density = 0.5
-shader_parameter/star_brightness = 1.2
+shader_parameter/star_brightness = 0.85300003725762
 
 [sub_resource type="Sky" id="Sky_frkhe"]
 sky_material = SubResource("ShaderMaterial_4kpch")
@@ -51,6 +51,7 @@ transform = Transform3D(-0.9889034, 0.14354971, 0.038256973, 0.14469156, 0.87228
 transform = Transform3D(1.97, 0, 0, 0, 1.97, 0, 0, 0, 1.97, 0, 0, 0)
 script = ExtResource("5_pbw6q")
 asteroid_scene = ExtResource("6_v1gob")
+asteroid_explosion_scene = ExtResource("4_grg3l")
 spawn_interval = 2.0
 asteroid_speed = 2.0
 spawn_radius = 30.0
@@ -61,9 +62,10 @@ script = ExtResource("7_jw32o")
 formation_scene = ExtResource("8_50glp")
 leader_scene = ExtResource("1_idj7w")
 follower_scene = ExtResource("1_idj7w")
+explosion_scene = ExtResource("7_grg3l")
 spawn_interval = 1.625
 max_formations = 2
-spawn_radius = 27.23
+spawn_radius = 45.715
 
 [node name="WormholeHandler" parent="Spawners" unique_id=444149420 instance=ExtResource("7_4kpch")]
 spawn_x_width = 40.0
@@ -81,22 +83,9 @@ size = 35.92215
 
 [node name="Assets" type="Node3D" parent="." unique_id=2110826050]
 
-[node name="Container" parent="Assets" unique_id=1696708418 instance=ExtResource("4_rgh2o")]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.42668915, 0, 0)
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Assets" unique_id=370714862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("PlaneMesh_rgh2o")
-
-[node name="Ship" parent="Assets" unique_id=1759432117 instance=ExtResource("1_idj7w")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5946782, 0, 4.124032)
-
-[node name="spaceship" parent="Assets/Ship" index="0" unique_id=1114048911]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016, 0, 0.163)
-
-[node name="PlayerShip" parent="Assets" unique_id=218459643 instance=ExtResource("1_kln2b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.470618, 0, -3.2355561)
-axis_lock_linear_y = true
 
 [node name="Sounds" type="Node3D" parent="." unique_id=832491980]
 
@@ -106,10 +95,10 @@ volume_db = -7.241
 autoplay = true
 parameters/looping = true
 
+[node name="AudioListener3D" type="AudioListener3D" parent="Sounds" unique_id=335804189]
+current = true
+
 [node name="UI" parent="." unique_id=495450367 instance=ExtResource("10_bmxlf")]
 
 [connection signal="add_points" from="Spawners/Formation_Spawner" to="UI" method="_on_formation_spawner_add_points"]
 [connection signal="collected_coin" from="Spawners/CoinSpawner" to="UI" method="_on_coin_spawner_collected_coin"]
-
-[editable path="Assets/Ship"]
-[editable path="Assets/PlayerShip"]
