@@ -1,6 +1,113 @@
 [gd_scene format=3 uid="uid://dbq10mwuv50ve"]
 
 [ext_resource type="Script" uid="uid://xegnb1mik0h5" path="res://Scripts/dialog.gd" id="1_irs7l"]
+[ext_resource type="Shader" uid="uid://8iqtwrqu4hkm" path="res://Scenes/crt.gdshader" id="2_87kay"]
+[ext_resource type="Texture2D" uid="uid://dvubmh8gxuosm" path="res://Models/Sprites/Dylan.png" id="2_edf0l"]
+[ext_resource type="Texture2D" uid="uid://ci5ogebj88scy" path="res://Models/Sprites/yappyCiaran.png" id="2_u40lh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ionbg"]
+atlas = ExtResource("2_u40lh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gl4vm"]
+atlas = ExtResource("2_u40lh")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofp2y"]
+atlas = ExtResource("2_u40lh")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3dls6"]
+atlas = ExtResource("2_u40lh")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_87kay"]
+atlas = ExtResource("2_edf0l")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u40lh"]
+atlas = ExtResource("2_edf0l")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xg2mj"]
+atlas = ExtResource("2_edf0l")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3nas4"]
+atlas = ExtResource("2_edf0l")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ionbg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ionbg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gl4vm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ofp2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3dls6")
+}],
+"loop": true,
+"name": &"ciaran",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_87kay")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u40lh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xg2mj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3nas4")
+}],
+"loop": true,
+"name": &"dylan",
+"speed": 4.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u40lh"]
+shader = ExtResource("2_87kay")
+shader_parameter/overlay = true
+shader_parameter/scanlines_opacity = 0.10800000512999999
+shader_parameter/scanlines_width = 0.250000011875
+shader_parameter/grille_opacity = 0.3
+shader_parameter/resolution = Vector2(640, 480)
+shader_parameter/pixelate = false
+shader_parameter/roll = true
+shader_parameter/roll_speed = 8.0
+shader_parameter/roll_size = 3.06000014535
+shader_parameter/roll_variation = 1.8
+shader_parameter/distort_intensity = 0.05
+shader_parameter/noise_opacity = 0.4
+shader_parameter/noise_speed = 5.0
+shader_parameter/static_noise_intensity = 0.06
+shader_parameter/aberration = 0.010000047974999982
+shader_parameter/brightness = 1.4
+shader_parameter/discolor = true
+shader_parameter/warp_amount = 0.0
+shader_parameter/clip_warp = false
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_opacity = 0.5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_87kay"]
+content_margin_left = 20.0
+bg_color = Color(0.13725491, 0.13725491, 0.13725491, 0.21176471)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u40lh"]
+content_margin_left = 5.0
+content_margin_top = 2.0
+content_margin_right = 5.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Control" unique_id=1304187129]
 layout_mode = 3
@@ -9,13 +116,41 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_behavior_recursive = 1
 script = ExtResource("1_irs7l")
 
+[node name="Control" type="Control" parent="." unique_id=916243760]
+texture_filter = 1
+anchors_preset = 0
+offset_bottom = 162.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control" unique_id=386448863]
+texture_filter = 1
+position = Vector2(81, 77)
+scale = Vector2(4.9999995, 4.9999995)
+sprite_frames = SubResource("SpriteFrames_ionbg")
+animation = &"dylan"
+frame_progress = 0.30513918
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=987283757]
+texture_filter = 1
+material = SubResource("ShaderMaterial_u40lh")
+layout_mode = 0
+offset_left = 2.0
+offset_right = 169.0
+offset_bottom = 161.0
+color = Color(1, 1, 1, 0)
+
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1997570456]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 166.0
+offset_top = 1.0
+offset_right = 166.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 4
@@ -23,16 +158,22 @@ theme_override_constants/separation = 4
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer" unique_id=1667573376]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_87kay")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer" unique_id=296022216]
 layout_mode = 2
 
 [node name="Name" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=928109220]
 layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_u40lh")
+text = "DYLAN"
 
 [node name="DialogText" type="RichTextLabel" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1077723768]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 32
+text = "A Formation Is Coming From The Top Right"
 fit_content = true
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HBoxContainer" unique_id=386448863]
+vertical_alignment = 1

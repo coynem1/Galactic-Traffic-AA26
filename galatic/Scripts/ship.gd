@@ -85,6 +85,8 @@ func teleport_ship():
 
 # Signals
 func _on_grabpoint_grabbing(value: bool) -> void:
+	if not leader:
+		return
 	selected = value
 	
 	# First time
