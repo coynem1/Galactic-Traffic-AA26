@@ -45,6 +45,9 @@ func _process(delta: float) -> void:
 				all_dead = false
 				break
 		if all_dead or dying_timer >= dying_timeout:
+			# Blow up
+			for child in get_children():
+				blow_up.emit(child.global_position)
 			destroy_all()
 
 # Ship teleporting through wormhole 
@@ -58,11 +61,6 @@ func on_teleport_ship(ship: Ship) -> void:
 
 func destroy_all():
 	formation_destroyed.emit()
-	
-	# Blow up
-	for child in get_children():
-		blow_up.emit(child.position)
-	
 	queue_free()
 	
 func destroy_follower(ship: Ship):

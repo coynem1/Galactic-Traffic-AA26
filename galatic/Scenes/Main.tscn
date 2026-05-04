@@ -93,6 +93,7 @@ mesh = SubResource("PlaneMesh_rgh2o")
 stream = ExtResource("11_grg3l")
 volume_db = -7.241
 autoplay = true
+bus = &"Music"
 parameters/looping = true
 
 [node name="AudioListener3D" type="AudioListener3D" parent="Sounds" unique_id=335804189]
