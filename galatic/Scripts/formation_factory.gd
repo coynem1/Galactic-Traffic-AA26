@@ -38,6 +38,11 @@ func spawn_formation() -> void:
 	formation.formation_destroyed.connect(_on_formation_destroyed)
 	formation.connect("add_points", _on_formation_add_points)
 	
+	# Connect its dialog signal immediately after spawning
+	var dialog = get_tree().get_first_node_in_group("dialog")
+	if dialog:
+		dialog.register_source(formation)
+	
 	formation.leader_scene = leader_scene
 	formation.follower_scene = follower_scene
 	formation.max_speed = max_speed

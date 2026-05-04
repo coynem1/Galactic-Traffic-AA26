@@ -23,6 +23,7 @@ var dying_timer: float = 0.0
 
 signal formation_destroyed
 signal add_points(value: int)
+signal dialog_event(type: String, info: String)
 
 # Initialises everything
 func setup(type: FormationType, spawn_pos: Vector3) -> void:
@@ -50,6 +51,8 @@ func _process(delta: float) -> void:
 func on_teleport_ship(ship: Ship) -> void:
 	if ship == leader:
 		add_points.emit(PointsUtil.LEADER_POINTS_VALUE + PointsUtil.FOLLOWER_POINTS_VALUE * followerCount)
+		emit_signal("dialog_event", "teleport", "")
+		await get_tree().process_frame
 		destroy_all()
 	else:
 		add_points.emit(PointsUtil.FOLLOWER_POINTS_VALUE)
