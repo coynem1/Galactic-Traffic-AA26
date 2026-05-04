@@ -24,7 +24,7 @@ func _ready() -> void:
 	for w in wormholes:
 		wormhole_state[w] = false
 		w.connect("body_teleported", _on_wormhole_body_teleported)
-		w.enable(false)
+		#w.enable(false)
 		
 	_open_wormhole()
 

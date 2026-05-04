@@ -23,6 +23,7 @@ var dying_timer: float = 0.0
 
 signal formation_destroyed
 signal add_points(value: int)
+signal blow_up(pos: Vector3)
 signal dialog_event(type: String, info: String)
 
 # Initialises everything
@@ -45,6 +46,9 @@ func _process(delta: float) -> void:
 				all_dead = false
 				break
 		if all_dead or dying_timer >= dying_timeout:
+			# Blow up
+			for child in get_children():
+				blow_up.emit(child.global_position)
 			destroy_all()
 
 # Ship teleporting through wormhole 
@@ -126,12 +130,17 @@ func start_dying() -> void:
 		leader.queue_free()
 		leader = null
 
+# Blow up ship
 func _on_destroy(ship: Node):
+	# Blow up
+	blow_up.emit(ship.global_position)
+	
 	if ship == leader:
 		if not dying:
 			start_dying()
 	else:
 		destroy_follower(ship)
+
 			
 func get_offsets() -> Array:
 	var raw := []

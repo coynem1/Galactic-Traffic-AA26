@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dmx4ibiq5ckr"]
 
 [ext_resource type="Script" uid="uid://c7rpdb7nb8b0m" path="res://Scripts/coin.gd" id="1_d5gmh"]
+[ext_resource type="Texture2D" uid="uid://bg5atmu5dc564" path="res://Models/images/shape_c.png" id="2_lxco8"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_0t63x"]
-height = 0.125
+[sub_resource type="SphereMesh" id="SphereMesh_ento2"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_d5gmh"]
 noise_type = 4
@@ -18,23 +18,35 @@ as_normal_map = true
 bump_strength = 6.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7riw"]
-albedo_color = Color(0.8062102, 0.53930485, 0.009624225, 1)
+transparency = 1
+cull_mode = 1
+specular_mode = 1
 metallic = 0.82
 metallic_specular = 0.65
-roughness = 0.0
 roughness_texture = SubResource("NoiseTexture2D_0t63x")
 emission_enabled = true
-emission = Color(0.92234015, 0.88253754, 1.540184e-06, 1)
+emission = Color(0.602622, 0.0017469537, 0.7925175, 1)
 emission_energy_multiplier = 2.19
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_v7riw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xi63a"]
+transparency = 1
+blend_mode = 1
+depth_draw_mode = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.82325965, 0.60579795, 0.98010904, 1)
+albedo_texture = ExtResource("2_lxco8")
+billboard_mode = 1
+stencil_flags = 2
 
 [node name="Coin" type="Node3D" unique_id=895016628]
 script = ExtResource("1_d5gmh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=921823559]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
-mesh = SubResource("CylinderMesh_0t63x")
+mesh = SubResource("SphereMesh_ento2")
 surface_material_override/0 = SubResource("StandardMaterial3D_v7riw")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1901885637]
@@ -42,5 +54,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_v7riw")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=627155876]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("SphereShape3D_v7riw")
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=992560108]
+material_override = SubResource("StandardMaterial3D_xi63a")
+texture = ExtResource("2_lxco8")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

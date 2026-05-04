@@ -10,7 +10,11 @@ signal body_teleported(body: Node3D)
 var current_portal_size: float = 0
 
 func _ready() -> void:
-	portal.visible = false
+	var start: bool = false
+	portal.visible = start
+	area_3d.monitorable = start
+	area_3d.monitoring = start
+	
 	# Set shader radius to 0 directly without tweening
 	var mat := portal.get_active_material(0)
 	mat.set_shader_parameter("radius", 0)

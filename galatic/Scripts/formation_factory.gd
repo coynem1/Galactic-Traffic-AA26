@@ -3,6 +3,7 @@ extends Node3D
 @export var formation_scene: PackedScene
 @export var leader_scene: PackedScene
 @export var follower_scene: PackedScene
+@export var explosion_scene: PackedScene
 @export var spawn_interval: float = 10.0
 @export var max_formations: int = 3
 @export var spawn_radius: float = 40.0
@@ -37,6 +38,7 @@ func spawn_formation() -> void:
 	active_formations += 1
 	formation.formation_destroyed.connect(_on_formation_destroyed)
 	formation.connect("add_points", _on_formation_add_points)
+	formation.connect("blow_up", _on_blow_up_ship)
 	
 	# Connect its dialog signal immediately after spawning
 	var dialog = get_tree().get_first_node_in_group("dialog")
@@ -60,6 +62,12 @@ func spawn_formation() -> void:
 	)
 	formation.rotation.y = angle + PI
 	formation.setup(type, spawn_pos)
+	
+func _on_blow_up_ship(pos: Vector3) -> void:
+	var boom := explosion_scene.instantiate()
+	add_child(boom)
+	boom.position = pos
+	boom.explosion()
 	
 	# Find quadrant to emit to dialog
 	var x = spawn_pos.x

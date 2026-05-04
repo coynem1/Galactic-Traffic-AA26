@@ -1,0 +1,76 @@
+[gd_scene format=3 uid="uid://82mno8ddhisg"]
+
+[ext_resource type="Script" uid="uid://cud3nc1nga8xq" path="res://Scripts/asteroid_explosion.gd" id="1_exr76"]
+[ext_resource type="AudioStream" uid="uid://d3o81njveldp8" path="res://Audio/Impact SFX/8bitHit-02.mp3" id="3_exr76"]
+[ext_resource type="AudioStream" uid="uid://coldxaa6g74bb" path="res://Audio/Impact SFX/8bitHit-05.mp3" id="3_fjv24"]
+[ext_resource type="AudioStream" uid="uid://ccdmoaam1k850" path="res://Audio/Impact SFX/8bitHit-04.mp3" id="4_lnuhc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u8d6w"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.34635413, 0.3508745, 0.32978457, 1)
+
+[sub_resource type="Curve" id="Curve_ulwrf"]
+_data = [Vector2(0.2542373, 0.15730345), 0.0, 0.0, 0, 0, Vector2(0.529661, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_747dt"]
+_limits = [0.0, 1.7977533, 0.0, 1.0]
+_data = [Vector2(0, 1.3483148), 0.0, 0.0, 0, 0, Vector2(0.22881356, 1.7977533), 0.0, 0.0, 0, 0, Vector2(0.67796606, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_mqhuf"]
+_data = [Vector2(0, 0.4044944), 0.0, 0.0, 0, 0, Vector2(0.04661017, 1), 0.0, 0.0, 0, 0, Vector2(0.27542374, 0.37078655), 0.0, 0.0, 0, 0, Vector2(0.62711865, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_p3r7q"]
+curve_x = SubResource("Curve_ulwrf")
+curve_y = SubResource("Curve_747dt")
+curve_z = SubResource("Curve_mqhuf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uvaiq"]
+lifetime_randomness = 0.4
+particle_flag_align_y = true
+emission_shape = 1
+emission_sphere_radius = 0.01
+direction = Vector3(0, 1, 0)
+spread = 110.477
+initial_velocity_min = 1.1
+initial_velocity_max = 9.7
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_max = 1.1
+scale_curve = SubResource("CurveXYZTexture_p3r7q")
+
+[sub_resource type="SphereMesh" id="SphereMesh_exr76"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wc1fe"]
+random_pitch = 1.0682505
+streams_count = 3
+stream_0/stream = ExtResource("3_fjv24")
+stream_1/stream = ExtResource("3_exr76")
+stream_2/stream = ExtResource("4_lnuhc")
+
+[node name="Explosion" type="Node3D" unique_id=5534646]
+script = ExtResource("1_exr76")
+
+[node name="Burst" type="GPUParticles3D" parent="." unique_id=371513728]
+material_override = SubResource("StandardMaterial3D_u8d6w")
+cast_shadow = 0
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 1.0
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_uvaiq")
+draw_pass_1 = SubResource("SphereMesh_exr76")
+
+[node name="Boom" type="AudioStreamPlayer3D" parent="." unique_id=2118825779]
+stream = SubResource("AudioStreamRandomizer_wc1fe")
+attenuation_model = 2
+volume_db = -10.07
+pitch_scale = 0.41
+max_distance = 60.0
+bus = &"SFX"

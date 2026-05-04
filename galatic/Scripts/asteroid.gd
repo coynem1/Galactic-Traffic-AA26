@@ -2,6 +2,7 @@ extends RigidBody3D
 
 const DESTROY := "destroy"
 signal destroy(value: Node)
+signal blow_up(pos: Vector3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +17,7 @@ func _on_area_hit(body: Node) -> void:
 
 func _destroy():
 	# Do something to the asteroid here. RN i delete it
+	blow_up.emit(self.position)
 	queue_free()
 
 # When a collision happens 
