@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://doism0itxll2v" path="res://Scenes/Assets/Final/Asteroid.tscn" id="6_v1gob"]
 [ext_resource type="PackedScene" uid="uid://c7bo6r6j28f33" path="res://Scenes/wormhole_handler.tscn" id="7_4kpch"]
 [ext_resource type="Script" uid="uid://85c3nydto6bg" path="res://Scripts/formation_factory.gd" id="7_jw32o"]
+[ext_resource type="PackedScene" uid="uid://bqfsnblqx1fki" path="res://coin_spawner.tscn" id="8_4kpch"]
 [ext_resource type="PackedScene" uid="uid://07is0342ab4m" path="res://Scenes/formation.tscn" id="8_50glp"]
 [ext_resource type="PackedScene" uid="uid://bbm1lcafo7kr1" path="res://Scenes/ui.tscn" id="10_bmxlf"]
 
@@ -66,6 +67,9 @@ spawn_radius = 27.23
 [node name="WormholeHandler" parent="Spawners" unique_id=444149420 instance=ExtResource("7_4kpch")]
 spawn_x_width = 40.0
 
+[node name="CoinSpawner" parent="Spawners" unique_id=778108674 instance=ExtResource("8_4kpch")]
+spawn_length = 20.0
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1607004352]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, -1.9073486e-06, 17.188236, 2.2018204)
 fov = 90.0
@@ -93,6 +97,7 @@ axis_lock_linear_y = true
 [node name="UI" parent="." unique_id=495450367 instance=ExtResource("10_bmxlf")]
 
 [connection signal="add_points" from="Spawners/Formation_Spawner" to="UI" method="_on_formation_spawner_add_points"]
+[connection signal="collected_coin" from="Spawners/CoinSpawner" to="UI" method="_on_coin_spawner_collected_coin"]
 
 [editable path="Assets/Ship"]
 [editable path="Assets/PlayerShip"]
