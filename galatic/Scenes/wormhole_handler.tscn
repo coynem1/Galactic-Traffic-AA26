@@ -6,14 +6,20 @@
 [node name="WormholeHandler" type="Node3D" unique_id=444149420]
 script = ExtResource("1_fdu4y")
 
-[node name="Wormhole" parent="." unique_id=1780791626 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+[node name="Wormhole" parent="." unique_id=1780791626 instance=ExtResource("2_bxhqr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.8981943)
 
-[node name="Wormhole2" parent="." unique_id=314526113 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+[node name="Wormhole2" parent="." unique_id=314526113 instance=ExtResource("2_bxhqr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.4201097)
 
-[node name="Wormhole3" parent="." unique_id=1054873386 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+[node name="Wormhole3" parent="." unique_id=1054873386 instance=ExtResource("2_bxhqr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.7592263)
 
-[node name="Wormhole4" parent="." unique_id=388302889 groups=["Wormholes"] instance=ExtResource("2_bxhqr")]
+[node name="Wormhole4" parent="." unique_id=388302889 instance=ExtResource("2_bxhqr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.189295)
+
+[node name="Timer" type="Timer" parent="." unique_id=755863242]
+wait_time = 17.828
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

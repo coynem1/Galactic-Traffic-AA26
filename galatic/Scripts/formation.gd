@@ -92,7 +92,12 @@ func spawn_followers() -> void:
 		
 		add_child(follower)
 		
-		follower.global_position = global_position + offsets[i]
+		# Rotate offset by leader's current orientation
+		var rotated_offset = rotation_degrees * offsets[i]
+		#print("formation rotation: ", rotation_degrees)
+		
+		follower.global_position = leader.global_position + rotated_offset
+		#follower.global_position = global_position + offsets[i]
 		follower.leaderBoid = leader
 		follower.offsetPursueEnabled = false
 		follower.seekEnabled = true
