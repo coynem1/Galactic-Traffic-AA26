@@ -15,7 +15,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4kpch"]
 shader = ExtResource("1_50glp")
-shader_parameter/sun_color = Color(9.097154, 9.183855, 0.00017236685, 1)
+shader_parameter/sun_color = Color(9.088878, 9.184001, 1.8043864, 1)
 shader_parameter/sun_size = 0.00999999977648
 shader_parameter/sun_blur = 20.0
 shader_parameter/star_density = 0.5
@@ -54,8 +54,8 @@ asteroid_scene = ExtResource("6_v1gob")
 asteroid_explosion_scene = ExtResource("4_grg3l")
 spawn_interval = 2.0
 asteroid_speed = 2.0
-spawn_radius = 30.0
-destroy_radius = 31.0
+spawn_radius = 42.135
+destroy_radius = 67.46
 
 [node name="Formation_Spawner" type="Node3D" parent="Spawners" unique_id=596904330]
 script = ExtResource("7_jw32o")
