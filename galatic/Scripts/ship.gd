@@ -12,6 +12,8 @@ signal destroy(value: Node)
 
 @onready var spaceship: Node3D = $spaceship
 @onready var grabpoint: Node3D = $Grabpoint
+@onready var hitbox: Area3D = $Hitbox
+@onready var teleport_sound: AudioStreamPlayer3D = $teleportSound
 
 var _is_dying: bool = false
 var invincible: bool = false
@@ -23,6 +25,7 @@ var leader: bool = false:
 		grabpoint.enabled(value)
 var is_grabbed: bool = false
 var touched: bool = false
+var teleport_animating: bool = false
 
 func _ready():
 	super._ready()
@@ -83,6 +86,22 @@ func set_colour(colour: Color, full: bool) -> void:
 
 func teleport_ship():
 	teleported.emit(self)
+
+func teleport_animation(duration: float):
+	if teleport_animating:
+		return false
+	
+	var tween: Tween = create_tween()
+	tween.set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_ELASTIC)
+	
+	invincible = true
+	spaceship.use_secondary_shader(true)
+	hitbox.monitoring = false
+	hitbox.monitorable = false
+	teleport_sound.play()
+	
+	tween.tween_property(self, "scale", Vector3.ZERO, duration)
+	
 
 # Signals
 func _on_grabpoint_grabbing(value: bool) -> void:

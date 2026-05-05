@@ -5,6 +5,29 @@
 [ext_resource type="Script" uid="uid://p4jyj2ug8udw" path="res://Scripts/trail_renderer.gd" id="3_eqx34"]
 [ext_resource type="PackedScene" uid="uid://d3s7ohatbecds" path="res://Scenes/Components/grabpoint.tscn" id="4_n6b8c"]
 [ext_resource type="PackedScene" uid="uid://60lg0wupayp6" path="res://Scenes/Components/visible_on_screen.tscn" id="5_u8d6w"]
+[ext_resource type="Shader" uid="uid://c6u2amk60o6e0" path="res://Models/Shaders/hologram.gdshader" id="6_ulwrf"]
+[ext_resource type="AudioStream" uid="uid://d1f53nr6fybx3" path="res://Audio/teleport.mp3" id="7_747dt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mqhuf"]
+render_priority = 0
+shader = ExtResource("6_ulwrf")
+shader_parameter/primary_color = Color(0, 0.53180623, 0.98133427, 1)
+shader_parameter/secondary_color = Color(0.2808008, 0.4983939, 1, 1)
+shader_parameter/density = 1.0
+shader_parameter/effect_strength = 2.0
+shader_parameter/wipe_scale = 3.0
+shader_parameter/wipe_speed = 0.5
+shader_parameter/wipe_blend = 0.7
+shader_parameter/signal_scale = 40.0
+shader_parameter/signal_speed = 1.0
+shader_parameter/signal_random_scale = 0.21999999508256
+shader_parameter/signal_blend = 0.999999977648
+shader_parameter/noise_distort_amount = 0.1
+shader_parameter/noise_amount = 1.0
+shader_parameter/grain_amount = 0.4
+shader_parameter/displacement_amount = 0.53999998792992
+shader_parameter/flicker_amount = 0.3
+shader_parameter/flicker_speed = 10.0
 
 [sub_resource type="Curve" id="Curve_s8gdw"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -17,6 +40,11 @@ albedo_color = Color(1, 0.960784, 0, 1)
 height = 0.8
 radius = 1.1
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_747dt"]
+random_pitch = 1.2329948
+streams_count = 1
+stream_0/stream = ExtResource("7_747dt")
+
 [node name="Ship" type="CharacterBody3D" unique_id=1759432117]
 axis_lock_linear_y = true
 script = ExtResource("1_5tp56")
@@ -24,6 +52,7 @@ banking = 0.3
 jitter = 1.755
 
 [node name="spaceship" parent="." unique_id=1114048911 instance=ExtResource("2_4hgby")]
+secondary_shader = SubResource("ShaderMaterial_mqhuf")
 
 [node name="TrailRenderer" type="Node3D" parent="." unique_id=799410624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.25, 1.05)
@@ -54,6 +83,11 @@ shape = SubResource("CylinderShape3D_5tp56")
 [node name="Grabpoint" parent="." unique_id=548051434 instance=ExtResource("4_n6b8c")]
 
 [node name="VisibleOnScreen" parent="." unique_id=1248518696 instance=ExtResource("5_u8d6w")]
+
+[node name="teleportSound" type="AudioStreamPlayer3D" parent="." unique_id=1584851303]
+stream = SubResource("AudioStreamRandomizer_747dt")
+pitch_scale = 1.25
+bus = &"SFX"
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_area_3d_body_entered"]
 [connection signal="grabbing" from="Grabpoint" to="." method="_on_grabpoint_grabbing"]

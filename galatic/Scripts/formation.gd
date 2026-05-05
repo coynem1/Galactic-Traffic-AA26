@@ -53,14 +53,28 @@ func _process(delta: float) -> void:
 
 # Ship teleporting through wormhole 
 func on_teleport_ship(ship: Ship) -> void:
+	var duration: float = 0.6	# animation
+	
 	if ship == leader:
 		add_points.emit(PointsUtil.LEADER_POINTS_VALUE + PointsUtil.FOLLOWER_POINTS_VALUE * followerCount)
+		
+		for child in get_children():
+			if child is Ship:
+				child.teleport_animation(duration)
+		await get_tree().create_timer(duration).timeout
+		
 		emit_signal("dialog_event", "teleport", "")
 		await get_tree().process_frame
 		destroy_all()
 	else:
 		add_points.emit(PointsUtil.FOLLOWER_POINTS_VALUE)
-		destroy_follower(ship)
+		
+		ship.teleport_animation(duration)
+		await get_tree().create_timer(duration).timeout
+		if is_instance_valid(ship):
+			destroy_follower(ship)
+		else:
+			followerCount -= 1
 
 func destroy_all():
 	formation_destroyed.emit()
@@ -68,7 +82,8 @@ func destroy_all():
 	
 func destroy_follower(ship: Ship):
 	followerCount -= 1
-	ship.queue_free()
+	if is_instance_valid(ship):
+		ship.queue_free()
 		
 # Spawning at the start			
 func spawn_leader() -> void:
