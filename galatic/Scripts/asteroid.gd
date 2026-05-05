@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 const DESTROY := "destroy"
-const MAX_SCALE := 2.0
+const MAX_SCALE := 1.2
 const MIN_SCALE := 0.8
 signal destroy(value: Node)
 signal blow_up(pos: Vector3)

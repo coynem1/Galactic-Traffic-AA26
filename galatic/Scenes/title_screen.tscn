@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://b7ptnoqi0xg5r"]
 
-[ext_resource type="Script" uid="uid://b5im611ekk1ck" path="res://Scenes/title_screen.gd" id="1_klylv"]
+[ext_resource type="Script" path="res://Scenes/title_screen.gd" id="1_klylv"]
 [ext_resource type="Texture2D" uid="uid://d3r5ds4qttmw4" path="res://Models/images/skyboxlong.png" id="2_12m1t"]
 [ext_resource type="Texture2D" uid="uid://dvubmh8gxuosm" path="res://Models/Sprites/Dylan.png" id="2_p3fck"]
 [ext_resource type="Texture2D" uid="uid://ci5ogebj88scy" path="res://Models/Sprites/yappyCiaran.png" id="3_4gxqj"]
-[ext_resource type="Script" uid="uid://8dunp6d3x0eo" path="res://Scenes/texture_rect.gd" id="3_12m1t"]
+[ext_resource type="Script" path="res://Scenes/texture_rect.gd" id="3_12m1t"]
 [ext_resource type="FontFile" uid="uid://ifaoo4rpcmfs" path="res://Fonts/PressStart2P-Regular.ttf" id="4_6vd4x"]
-[ext_resource type="AudioStream" uid="uid://bexttx0pe0tx3" path="res://Audio/Music/JTBKnuggetsauce - Oration.mp3" id="4_twnyg"]
+[ext_resource type="AudioStream" uid="uid://b7f7ghvmwr1x5" path="res://Audio/Music/JTBKnuggetsauce - Oration.mp3" id="4_twnyg"]
 
 [sub_resource type="Theme" id="Theme_4gxqj"]
 
@@ -55,7 +55,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Title2" type="RichTextLabel" parent="VBoxContainer" unique_id=1694743589]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("4_6vd4x")
+theme_override_font_sizes/normal_font_size = 50
+bbcode_enabled = true
+text = "[wave amp=30 freq=5]Galactic Traffic"
+fit_content = true
+horizontal_alignment = 1
+
 [node name="Title" type="Label" parent="VBoxContainer" unique_id=1783840024]
+visible = false
 layout_mode = 2
 theme = SubResource("Theme_4gxqj")
 theme_override_constants/outline_size = 15
@@ -113,6 +125,8 @@ stretch_mode = 4
 
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=57837025]
 stream = ExtResource("4_twnyg")
+volume_db = -11.787
+bus = &"Music"
 
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Rules" to="." method="_on_how_to_play_pressed"]

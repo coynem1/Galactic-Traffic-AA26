@@ -85,6 +85,7 @@ size = 35.92215
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Assets" unique_id=370714862]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+visible = false
 mesh = SubResource("PlaneMesh_rgh2o")
 
 [node name="Sounds" type="Node3D" parent="." unique_id=832491980]
