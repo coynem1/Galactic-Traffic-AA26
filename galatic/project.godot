@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Galatic"
-run/main_scene="uid://cje0dj4b2na8s"
+run/main_scene="uid://b7ptnoqi0xg5r"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

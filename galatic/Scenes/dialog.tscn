@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://8iqtwrqu4hkm" path="res://Scenes/crt.gdshader" id="2_87kay"]
 [ext_resource type="Texture2D" uid="uid://dvubmh8gxuosm" path="res://Models/Sprites/Dylan.png" id="2_edf0l"]
 [ext_resource type="Texture2D" uid="uid://ci5ogebj88scy" path="res://Models/Sprites/yappyCiaran.png" id="2_u40lh"]
+[ext_resource type="FontFile" uid="uid://ifaoo4rpcmfs" path="res://Fonts/PressStart2P-Regular.ttf" id="5_ionbg"]
 [ext_resource type="AudioStream" uid="uid://dij6qcq2xh4jt" path="res://Audio/DialogSounds/buh2.wav" id="5_xg2mj"]
 [ext_resource type="AudioStream" uid="uid://dqhqy3dq7fabu" path="res://Audio/DialogSounds/radio.wav" id="6_3nas4"]
 
@@ -154,7 +155,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 165.0
 offset_top = 1.0
-offset_right = 165.0
+offset_right = 5.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -178,7 +179,9 @@ text = "DYLAN"
 [node name="DialogText" type="RichTextLabel" parent="HBoxContainer/PanelContainer/VBoxContainer" unique_id=1077723768]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_font_sizes/normal_font_size = 32
+theme_override_constants/line_separation = 5
+theme_override_fonts/normal_font = ExtResource("5_ionbg")
+theme_override_font_sizes/normal_font_size = 21
 text = "A Formation Is Coming From The Top Right"
 fit_content = true
 vertical_alignment = 1

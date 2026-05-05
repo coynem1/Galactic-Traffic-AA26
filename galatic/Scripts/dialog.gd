@@ -60,6 +60,12 @@ func _show_next():
 	is_showing = true
 	visible = true
 	var entry = dialog_queue.pop_front()
+	
+	# Clear dialog box to not show prev dialog
+	dialog_label.visible_characters = 0
+	dialog_label.text = ""
+	name_label.text = ""
+	
 	name_label.text = entry["anim"].capitalize() 
 	face.play(entry["anim"])
 	
