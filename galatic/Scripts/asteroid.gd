@@ -1,11 +1,16 @@
 extends RigidBody3D
 
 const DESTROY := "destroy"
+const MAX_SCALE := 2.0
+const MIN_SCALE := 0.8
 signal destroy(value: Node)
 signal blow_up(pos: Vector3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var size: float = randf_range(MIN_SCALE, MAX_SCALE)
+	scale = Vector3(size, size, size)
+	
 	body_entered.connect(_on_body_entered)
 	destroy.connect(_on_body_entered)	
 

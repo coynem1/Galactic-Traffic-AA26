@@ -71,7 +71,10 @@ func on_teleport_ship(ship: Ship) -> void:
 		
 		ship.teleport_animation(duration)
 		await get_tree().create_timer(duration).timeout
-		destroy_follower(ship)
+		if is_instance_valid(ship):
+			destroy_follower(ship)
+		else:
+			followerCount -= 1
 
 func destroy_all():
 	formation_destroyed.emit()
