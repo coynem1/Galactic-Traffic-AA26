@@ -13,6 +13,7 @@ signal destroy(value: Node)
 @onready var spaceship: Node3D = $spaceship
 @onready var grabpoint: Node3D = $Grabpoint
 @onready var hitbox: Area3D = $Hitbox
+@onready var teleport_sound: AudioStreamPlayer3D = $teleportSound
 
 var _is_dying: bool = false
 var invincible: bool = false
@@ -97,6 +98,7 @@ func teleport_animation(duration: float):
 	spaceship.use_secondary_shader(true)
 	hitbox.monitoring = false
 	hitbox.monitorable = false
+	teleport_sound.play()
 	
 	tween.tween_property(self, "scale", Vector3.ZERO, duration)
 	

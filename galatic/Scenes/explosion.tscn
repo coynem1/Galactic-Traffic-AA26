@@ -74,5 +74,4 @@ draw_pass_1 = SubResource("SphereMesh_shyk4")
 
 [node name="Boom" type="AudioStreamPlayer3D" parent="." unique_id=2118825779]
 stream = SubResource("AudioStreamRandomizer_wc1fe")
-attenuation_model = 2
 bus = &"SFX"

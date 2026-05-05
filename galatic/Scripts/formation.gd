@@ -79,7 +79,8 @@ func destroy_all():
 	
 func destroy_follower(ship: Ship):
 	followerCount -= 1
-	ship.queue_free()
+	if is_instance_valid(ship):
+		ship.queue_free()
 		
 # Spawning at the start			
 func spawn_leader() -> void:
