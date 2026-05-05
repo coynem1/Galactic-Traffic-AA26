@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://b7ptnoqi0xg5r"]
+
+[ext_resource type="Script" uid="uid://b5im611ekk1ck" path="res://Scenes/title_screen.gd" id="1_klylv"]
+[ext_resource type="Texture2D" uid="uid://d3r5ds4qttmw4" path="res://Models/images/skyboxlong.png" id="2_12m1t"]
+[ext_resource type="Texture2D" uid="uid://dvubmh8gxuosm" path="res://Models/Sprites/Dylan.png" id="2_p3fck"]
+[ext_resource type="Texture2D" uid="uid://ci5ogebj88scy" path="res://Models/Sprites/yappyCiaran.png" id="3_4gxqj"]
+[ext_resource type="Script" uid="uid://8dunp6d3x0eo" path="res://Scenes/texture_rect.gd" id="3_12m1t"]
+[ext_resource type="FontFile" uid="uid://ifaoo4rpcmfs" path="res://Fonts/PressStart2P-Regular.ttf" id="4_6vd4x"]
+[ext_resource type="AudioStream" uid="uid://bexttx0pe0tx3" path="res://Audio/Music/JTBKnuggetsauce - Oration.mp3" id="4_twnyg"]
+
+[sub_resource type="Theme" id="Theme_4gxqj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4gxqj"]
+atlas = ExtResource("2_p3fck")
+region = Rect2(0, 0.12698841, 32.117973, 31.60492)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twnyg"]
+atlas = ExtResource("3_4gxqj")
+region = Rect2(1, 0.5, 31, 31.6725)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55kwv"]
+atlas = SubResource("AtlasTexture_twnyg")
+
+[node name="TitleScreen" type="Control" unique_id=753567402]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_klylv")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=721137546]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = -122.0
+offset_right = 11923.0
+offset_bottom = 197.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_12m1t")
+expand_mode = 1
+stretch_mode = 1
+script = ExtResource("3_12m1t")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=72551047]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=1783840024]
+layout_mode = 2
+theme = SubResource("Theme_4gxqj")
+theme_override_constants/outline_size = 15
+theme_override_fonts/font = ExtResource("4_6vd4x")
+theme_override_font_sizes/font_size = 50
+text = "Galactic Traffic"
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="VBoxContainer" unique_id=1888622777]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1418642490]
+layout_mode = 2
+alignment = 1
+
+[node name="Play" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=524180399]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Start Game"
+
+[node name="Rules" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=1188175069]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "How To Play"
+
+[node name="RulesPanel" type="PanelContainer" parent="VBoxContainer" unique_id=1510532364]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/RulesPanel" unique_id=2080958533]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=929699731]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.75
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Dylan" type="TextureRect" parent="HBoxContainer2" unique_id=640810881]
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_4gxqj")
+expand_mode = 2
+
+[node name="Ciaran" type="TextureRect" parent="HBoxContainer2" unique_id=138278702]
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_55kwv")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=57837025]
+stream = ExtResource("4_twnyg")
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Rules" to="." method="_on_how_to_play_pressed"]
